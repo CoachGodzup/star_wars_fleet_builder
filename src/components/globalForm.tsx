@@ -1,10 +1,8 @@
-import React from 'react';
+'use client';
 
-export type DetailFormInputs = {
-    fleetName: string;
-    description: string;
-    commander: string;
-}
+import React from 'react';
+import { DetailForm, DetailFormInputs } from './detailForm';
+
 
 export type CompositionFormInputs = {
     shipNumber: string;
@@ -21,9 +19,7 @@ type GlobalFormProps = {
 }
 
 const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
-    const [fleetName, setFleetName] = React.useState('');
-    const [description, setDescription] = React.useState('');
-    const [commander, setCommander] = React.useState('');
+    const [detailForm, setDetailForm] = React.useState<DetailFormInputs>({fleetName: '', description: '', commander: ''});
 
     const [shipNumber, setShipNumber] = React.useState('0');
 
@@ -33,9 +29,7 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
         event.preventDefault();
         console.log(event.currentTarget.elements);
         onSubmit({
-            fleetName,
-            description,
-            commander,
+            ...detailForm,
             shipNumber,
             general,
         });
@@ -44,11 +38,9 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
     return (
         <form onSubmit={handleSubmit}>
             <fieldset>
-                <label>Details</label>
-                <input name='fleetName' value={fleetName} required onChange={(elm) => setFleetName(elm.currentTarget.value)} data-testid="fleetName" type='text' placeholder='Name' />
-                <input name='description' value={description} required onChange={(elm) => setDescription(elm.currentTarget.value)} data-testid="description" type='text' placeholder='description' />
-                <input name='commander' value={commander} required onChange={(elm) => setCommander(elm.currentTarget.value)} data-testid="commander" type='text' placeholder='commander' />
+                <DetailForm state={detailForm} setState={setDetailForm} />
             </fieldset>
+            <pre>{JSON.stringify(detailForm)}</pre>
             <fieldset>
                 <label>Composition</label>
                 {/* add multiple choice from a list */}
