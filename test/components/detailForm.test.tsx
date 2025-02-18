@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { fireEvent, screen } from '@testing-library/react'
-import { DetailForm, DetailFormInputs } from '@/components/detailForm';
+import { DetailForm, DetailFormInputs } from '@/components/form/detailForm';
 import { render } from '../test-utils/render';
 
 describe('Detail Form Component', () => {

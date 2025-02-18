@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen } from '@testing-library/react'
-import GlobalForm from '@/components/globalForm';
+import { fireEvent, screen } from '@testing-library/react'
+import GlobalForm from '@/components/form/globalForm';
+import { render } from '../test-utils/render';
 
 describe('Global Form Component', () => {
     it('renders the form', () => {
