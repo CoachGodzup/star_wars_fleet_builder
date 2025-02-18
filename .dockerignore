@@ -1,0 +1,6 @@
+coverage/*
+test/*
+.gitignore
+.git
+README.md
+.swc

@@ -1,8 +1,10 @@
+'use client'
+
 import styles from "./page.module.css";
-import GlobalForm, { DetailFormProps } from "@/components/globalForm";
+import GlobalForm, { GlobalFormInputs } from "@/components/globalForm";
 
 export default function Home() {
-  const onSubmit = (data: DetailFormProps) => {
+  const onSubmit = (data: GlobalFormInputs) => {
     console.log(data);
   }
 
