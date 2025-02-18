@@ -1,19 +1,23 @@
 import React from 'react';
 
-export type DetailFormProps = {
+export type DetailFormInputs = {
     fleetName: string;
     description: string;
     commander: string;
 }
 
-export type CompositionFormProps = {}
+export type CompositionFormInputs = {
+    shipNumber: string;
+}
 
-export type GeneralFormProps = {
+export type GeneralFormInputs = {
     general: string;
 }
 
+export type GlobalFormInputs = DetailFormInputs & CompositionFormInputs & GeneralFormInputs;
+
 type GlobalFormProps = {
-    onSubmit: (data: DetailFormProps) => void;
+    onSubmit: (data: GlobalFormInputs) => void;
 }
 
 const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
@@ -21,9 +25,9 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
     const [description, setDescription] = React.useState('');
     const [commander, setCommander] = React.useState('');
 
-    // const [shipNumber, setShipNumber] = React.useState(0);
+    const [shipNumber, setShipNumber] = React.useState('0');
 
-//    const [general, setGeneral] = React.useState('');
+    const [general, setGeneral] = React.useState('');
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,7 +35,9 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
         onSubmit({
             fleetName,
             description,
-            commander
+            commander,
+            shipNumber,
+            general,
         });
     }
 
@@ -46,11 +52,11 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
             <fieldset>
                 <label>Composition</label>
                 {/* add multiple choice from a list */}
-                <input name='ship-number' data-testid='composition' type='number' placeholder='ship-number' />
+                <input name='ship-number' value={shipNumber} required onChange={(elm) => setShipNumber(elm.currentTarget.value)} data-testid='composition' type='string' placeholder='ship-number' />
             </fieldset>
             <fieldset>
                 <label>General</label>
-                <input name='general' data-testid='general' type='text' placeholder='general' />
+                <input name='general' value={general} required onChange={(elm) => setGeneral(elm.currentTarget.value)} data-testid='general' type='text' placeholder='general' />
             </fieldset>
             <fieldset>
                 <input type="submit" data-testid='submit' value="Create" />
