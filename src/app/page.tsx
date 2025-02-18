@@ -1,5 +1,5 @@
 'use client'
-import GlobalForm, { GlobalFormInputs } from "@/components/globalForm";
+import GlobalForm, { GlobalFormInputs } from "@/components/form/globalForm";
 
 export default function Home() {
   const onSubmit = (data: GlobalFormInputs) => {
