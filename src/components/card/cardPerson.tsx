@@ -1,25 +1,22 @@
 import { Person } from '@/model/person';
 import { Group, Avatar, Text, Loader } from '@mantine/core';
 import React, { useCallback, useEffect } from 'react';
-import { mockRandomSpeciesPeople } from '../../../test/mocks/mock.person.list';
 import { fetchPlanetByUrl } from '@/api/swapi/planet';
 import { fetchSpeciesByUrl } from '@/api/swapi/species';
 import { dateFormatter } from '@/utils/date-formatter';
 
-/*
+
 interface CardPersonProps {
     person: Person
-}*/
+}
 
-const CardPerson: React.FC = ({ /*person*/ }) => {
+const CardPerson: React.FC<CardPersonProps> = ({ person }) => {
     // TODO fetch data from API and not here
     const [isLoadingPlanet, setLoadingPlanet] = React.useState(false);
     const [planet, setPlanet] = React.useState<string | null>(null);
 
     const [isLoadingSpecies, setLoadingSpecies] = React.useState(false);
     const [species, setSpecies] = React.useState<string | null>(null);
-
-    const person: Person = mockRandomSpeciesPeople[0];
 
     const getHomeworldInfos = useCallback(async () => {
       setLoadingPlanet(true);
@@ -49,6 +46,7 @@ const CardPerson: React.FC = ({ /*person*/ }) => {
       <Avatar
         size={94}
         radius="md"
+        color='initials'
       />
       <div>
         <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
