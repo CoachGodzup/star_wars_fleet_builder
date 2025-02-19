@@ -1,3 +1,6 @@
+import { Planet } from "./planet";
+import { Species } from "./species";
+
 export type Person = {
     name: string;
     height: string;
@@ -15,4 +18,6 @@ export type Person = {
     created: string;
     edited: string;
     url: string;
+    homeworldInfo?: Planet,
+    speciesInfo?: Species[],
 }
