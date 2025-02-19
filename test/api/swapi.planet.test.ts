@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchPlanets, FetchPlanetRequest } from '@/api/swapi/planet';
+import { fetchPlanets, FetchPlanetRequest, fetchPlanetByUrl } from '@/api/swapi/planet';
 import { Planet } from '@/model/planet';
 import { mockPlanet } from '../mocks/mock.planet';
 
@@ -29,6 +29,17 @@ describe('fetchPlanets', () => {
         expect(mockedAxios.get).toHaveBeenCalledWith('https://swapi.dev/api/planets/1');
     });
 
+    it('can fetch planet given a url', async () => {
+        const url = 'https://swapi.dev/api/planets/1';
+        const mockData: Planet = mockPlanet;
+
+        mockedAxios.get = jest.fn().mockResolvedValue({ data: mockData });
+
+        const result = await fetchPlanetByUrl(url);
+        expect(result).toEqual(mockData);
+        expect(mockedAxios.get).toHaveBeenCalledWith('https://swapi.dev/api/planets/1');
+    });
+
     it('should handle errors', async () => {
         const searchRequest: FetchPlanetRequest = { type: 'search', search: 'Tatooine' };
         const errorMessage = 'Network Error';
@@ -36,5 +47,14 @@ describe('fetchPlanets', () => {
         mockedAxios.get.mockRejectedValue(new Error(errorMessage));
 
         await expect(fetchPlanets(searchRequest)).rejects.toThrow(errorMessage);
+    });
+
+    it('should handle errors if URL is given', async () => {
+        const url = 'https://swapi.dev/api/planets/1';
+        const errorMessage = 'Network Error';
+
+        mockedAxios.get.mockRejectedValue(new Error(errorMessage));
+
+        await expect(fetchPlanetByUrl(url)).rejects.toThrow(errorMessage);
     });
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchSpecies, FetchSpeciesRequest } from '@/api/swapi/species';
+import { fetchSpecies, fetchSpeciesByUrl, FetchSpeciesRequest } from '@/api/swapi/species';
 import { Species } from '@/model/species';
 import { mockSpecies } from '../mocks/mock.species';
 
@@ -25,5 +25,25 @@ describe('fetchSpecies', () => {
         mockedAxios.get.mockRejectedValue(new Error(errorMessage));
 
         await expect(fetchSpecies(searchRequest)).rejects.toThrow(errorMessage);
+    });
+
+    it('can fetch species given a url', async () => {
+        const url = 'https://swapi.dev/api/species/36';
+        const mockData: Species = mockSpecies;
+
+        mockedAxios.get = jest.fn().mockResolvedValue({ data: mockData });
+
+        const result = await fetchSpeciesByUrl(url);
+        expect(result).toEqual(mockData);
+        expect(mockedAxios.get).toHaveBeenCalledWith('https://swapi.dev/api/species/36');
+    });
+
+    it('should handle errors if URL is given', async () => {
+        const url = 'https://swapi.dev/api/species/36';
+        const errorMessage = 'Network Error';
+
+        mockedAxios.get.mockRejectedValue(new Error(errorMessage));
+
+        await expect(fetchSpeciesByUrl(url)).rejects.toThrow(errorMessage);
     });
 });

@@ -5,7 +5,7 @@ const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
 type GetSpeciesRequest = {
     type: 'get'
-    id: number;
+    id: string;
 }
 
 export type FetchSpeciesRequest = GetSpeciesRequest;
@@ -22,3 +22,14 @@ export const fetchSpecies: (req: FetchSpeciesRequest) => Promise<Species[]> = (r
         }
     })
 };
+
+export const fetchSpeciesByUrl: (url: string) => Promise<Species> = (url) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await axios.get<Species>(url);
+            resolve(response.data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}

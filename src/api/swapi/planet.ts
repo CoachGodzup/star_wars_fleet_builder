@@ -27,3 +27,14 @@ export const fetchPlanets: (req: FetchPlanetRequest) => Promise<Planet[]> = (req
         }
     });
 };
+
+export const fetchPlanetByUrl: (url: string) => Promise<Planet> = (url) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await axios.get<Planet>(url);
+            resolve(response.data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
