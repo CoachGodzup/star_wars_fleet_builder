@@ -2,9 +2,11 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { detailReducer } from './detailReducer';
+import { assignmentReducer } from './assignmentReducer';
 
 const rootReducer = {
-    detail: detailReducer
+    detail: detailReducer,
+    assignment: assignmentReducer,
     // Add your reducers here
 };
 
