@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import '@mantine/core/styles.css';
 
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-import { store as rootStore } from "@/store/rootStore";
-import { Provider as StoreProvider } from "react-redux";
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+import { Providers } from "./providers";
 
 
 const geistSans = Geist({
@@ -33,11 +32,9 @@ export default function RootLayout({
         <ColorSchemeScript></ColorSchemeScript>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MantineProvider>
-          <StoreProvider store={rootStore}>
-            {children}
-          </StoreProvider>
-        </MantineProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
