@@ -1,29 +1,32 @@
 'use client'
 
 import { Container, Fieldset, SimpleGrid, Paper, Flex } from "@mantine/core";
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { starshipList } from "../../../test/mocks/mock.starship.list";
-import { Assignment } from "@/model/assignment";
 import { TableFleet } from "../table/tableFleet";
 import { Starship } from "@/model/starship";
 import { SelectableCardStarship } from "../inputs/selectableCardStarship";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/rootStore";
+import { addShip, reset } from "@/store/assignmentReducer";
 
 export const CompositionForm: React.FC = () => {
-    const [fleetShips, setFleetShips] = React.useState<Assignment[]>([]);
+    const fleetShips = useSelector((state: RootState) => state.assignment.assignments);
+    const dispatch = useDispatch();
 
-    const addShip = useCallback((ship: Starship) => {
-        setFleetShips([...fleetShips, { starship: ship }]);
-    }, [fleetShips]);
+    const addStarship = (ship: Starship) => {
+        dispatch(addShip(ship));
+    };
 
-    const resetShips = useCallback(() => {
-        setFleetShips([]);
-    }, []);
+    const resetStarships = () => {
+        dispatch(reset());
+    };
 
     const shipSelector = useMemo(() => (
         <SimpleGrid cols={2} spacing='md'>
-            {starshipList.map((ship, i) => <SelectableCardStarship key={ship.url + i} starship={ship} onClick={addShip}></SelectableCardStarship>)}
+            {starshipList.map((ship, i) => <SelectableCardStarship key={ship.url + i} starship={ship} onClick={addStarship}></SelectableCardStarship>)}
         </SimpleGrid>
-    ), [starshipList, addShip]);
+    ), [starshipList, addStarship]);
 
     return (
         <Container fluid>
@@ -33,11 +36,11 @@ export const CompositionForm: React.FC = () => {
                 </Fieldset>
                 <Paper withBorder p='md'>
                     <Flex justify='end'>
-                        <button onClick={resetShips}>Reset</button>
+                        <button onClick={resetStarships}>Reset</button>
                     </Flex>
                     <TableFleet assignments={fleetShips} />
                 </Paper>
-            </SimpleGrid    >
+            </SimpleGrid>
         </Container>
     );
 }
