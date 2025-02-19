@@ -2,6 +2,6 @@ import { Person } from "./person";
 import { Starship } from "./starship";
 
 export type Assignment = {
-    general: Person;
+    general?: Person;
     starship: Starship;
 }

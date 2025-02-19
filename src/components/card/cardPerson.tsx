@@ -5,7 +5,6 @@ import { fetchPlanetByUrl } from '@/api/swapi/planet';
 import { fetchSpeciesByUrl } from '@/api/swapi/species';
 import { dateFormatter } from '@/utils/date-formatter';
 
-
 interface CardPersonProps {
     person: Person
 }
