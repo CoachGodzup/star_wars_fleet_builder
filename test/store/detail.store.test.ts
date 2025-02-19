@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setName, setDescription, setCommander, detailReducer, DetailStore } from "@/store/detailReducer";
 import { Person } from "@/model/person";
+import { mockPerson } from "../mocks/mock.person";
 
 describe('detailReducer', () => {
     let store: DetailStore;
@@ -33,7 +34,7 @@ describe('detailReducer', () => {
     });
 
     it('should handle setCommander action', () => {
-        const commander: Person = { id: 1, name: 'Commander Name' };
+        const commander: Person = mockPerson;
         store.dispatch(setCommander(commander));
         const state = store.getState();
         expect(state.commander).toEqual(commander);
