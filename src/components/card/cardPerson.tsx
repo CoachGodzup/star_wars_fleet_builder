@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { mockRandomSpeciesPeople } from '../../../test/mocks/mock.person.list';
 import { fetchPlanetByUrl } from '@/api/swapi/planet';
 import { fetchSpeciesByUrl } from '@/api/swapi/species';
+import { dateFormatter } from '@/utils/date-formatter';
 
 /*
 interface CardPersonProps {
@@ -19,7 +20,6 @@ const CardPerson: React.FC = ({ /*person*/ }) => {
     const [species, setSpecies] = React.useState<string | null>(null);
 
     const person: Person = mockRandomSpeciesPeople[0];
-
 
     const getHomeworldInfos = useCallback(async () => {
       setLoadingPlanet(true);
@@ -58,6 +58,12 @@ const CardPerson: React.FC = ({ /*person*/ }) => {
         <Text fz="lg" fw={500}>
           {person.name}
         </Text>
+
+        <Group wrap="nowrap" gap={10} mt={3}>
+          <Text fz="xs" c="dimmed">
+            {dateFormatter(person.birth_year)}
+          </Text>
+        </Group>
 
         <Group wrap="nowrap" gap={10} mt={3}>
           <Text fz="xs" c="dimmed">
