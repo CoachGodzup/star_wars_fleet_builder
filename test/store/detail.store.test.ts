@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { setName, setDescription, setCommander, personReducer, DetailStore } from "@/store/detailReducer";
+import { setName, setDescription, setCommander, detailReducer, DetailStore } from "@/store/detailReducer";
 import { Person } from "@/model/person";
 
 describe('detailReducer', () => {
@@ -7,7 +7,7 @@ describe('detailReducer', () => {
 
     beforeEach(() => {
         store = configureStore({
-            reducer: personReducer,
+            reducer: detailReducer,
         });
     });
 

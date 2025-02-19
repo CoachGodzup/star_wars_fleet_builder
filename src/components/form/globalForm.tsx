@@ -1,12 +1,15 @@
 'use client';
 
 import React from 'react';
-import { DetailForm, DetailFormInputs } from './detailForm';
+import { DetailForm } from './detailForm';
 import { CardStarship } from '../card/cardStarship';
 import { mockStarship } from '../../../test/mocks/mock.starship';
 import { TableFleet } from '../table/tableFleet';
 import { starshipList } from '../../../test/mocks/mock.starship.list';
 import { mockRandomSpeciesPeople } from '../../../test/mocks/mock.person.list';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/rootStore';
+import { DetailStoreData } from '@/store/detailReducer';
 
 
 export type CompositionFormInputs = {
@@ -17,14 +20,14 @@ export type GeneralFormInputs = {
     general: string;
 }
 
-export type GlobalFormInputs = DetailFormInputs & CompositionFormInputs & GeneralFormInputs;
+export type GlobalFormInputs = DetailStoreData & CompositionFormInputs & GeneralFormInputs;
 
 type GlobalFormProps = {
     onSubmit: (data: GlobalFormInputs) => void;
 }
 
 const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
-    const [detailForm, setDetailForm] = React.useState<DetailFormInputs>({fleetName: '', description: '', commander: ''});
+    const detailStore = useSelector((state: RootState) => state.detail);
 
     const [shipNumber, setShipNumber] = React.useState('0');
 
@@ -34,7 +37,7 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
         event.preventDefault();
         console.log(event.currentTarget.elements);
         onSubmit({
-            ...detailForm,
+            ...detailStore,
             shipNumber,
             general,
         });
@@ -52,9 +55,8 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
     return (
         <form onSubmit={handleSubmit}>
             <fieldset>
-                <DetailForm state={detailForm} setState={setDetailForm} />
+                <DetailForm />
             </fieldset>
-            <pre>{JSON.stringify(detailForm)}</pre>
             <fieldset>
                 <label>Composition</label>
                 {/* add multiple choice from a list */}

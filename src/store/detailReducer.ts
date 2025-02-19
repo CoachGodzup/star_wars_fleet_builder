@@ -2,7 +2,7 @@ import { Person } from "@/model/person";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { setupListeners } from '@reduxjs/toolkit/query'
 
-type DetailStoreData = {
+export type DetailStoreData = {
     name: string;
     description: string;
     commander: Person | null;
