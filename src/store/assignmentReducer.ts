@@ -1,36 +1,39 @@
 import { Assignment } from "@/model/assignment";
-import { Person } from "@/model/person";
 import { Starship } from "@/model/starship";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { setupListeners } from '@reduxjs/toolkit/query'
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 export type AssignmentStoreData = {
     assignments: Assignment[];
-}
+};
 
 const initialState: AssignmentStoreData = {
     assignments: [],
-}
+};
 
 const assignmentSlice = createSlice({
     name: 'assignment',
     initialState,
     reducers: {
+        reset: (state) => ({
+            ...state,
+            assignments: [],
+        }),
         addShip: (state, action: PayloadAction<Starship>) => ({
             ...state,
             assignments: [...state.assignments, { starship: action.payload }],
         }),
         removeShip: (state, action: PayloadAction<Starship>) => ({
             ...state,
-            assignments: [...state.assignments.filter(elm => elm.starship.url !== action.payload.url)],
+            assignments: state.assignments.filter(elm => elm.starship.url !== action.payload.url),
         }),
         assignGeneral: (state, action: PayloadAction<Assignment>) => ({
             ...state,
-            assignments: [...state.assignments.map(elm => elm.starship.url !== action.payload.starship.url ? elm : action.payload)],
+            assignments: state.assignments.map(elm => elm.starship.url !== action.payload.starship.url ? elm : action.payload),
         }),
         removeGeneral: (state, action: PayloadAction<Assignment>) => ({
             ...state,
-            assignments: [...state.assignments.map(elm => elm.starship.url !== action.payload.starship.url ? elm : { starship: action.payload.starship })],
+            assignments: state.assignments.map(elm => elm.starship.url !== action.payload.starship.url || elm.general?.url !== action.payload.general?.url ? elm : { starship: action.payload.starship }),
         }),
     },
 });
@@ -38,14 +41,14 @@ const assignmentSlice = createSlice({
 export type AssignmentStore = typeof store;
 
 // Export actions
-export const { addShip, removeShip, assignGeneral, removeGeneral } = assignmentSlice.actions
+export const { reset, addShip, removeShip, assignGeneral, removeGeneral } = assignmentSlice.actions;
 
 // Create reducer
-export const assignmentReducer = assignmentSlice.reducer
+export const assignmentReducer = assignmentSlice.reducer;
 
 // Create store (for testing)
 export const store = configureStore({
-  reducer: assignmentReducer,
-})
+    reducer: assignmentReducer,
+});
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);
