@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Person } from "@/model/person";
 import { Planet } from '@/model/planet';
+import { Species } from '@/model/species';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
@@ -25,13 +26,12 @@ export const fetchPeople: (req: FetchPeopleRequest) => Promise<Person[]> = (requ
             
             response.data.map(async (person) => {
                 // TODO species
+                const speciesInfo = await Promise.all(person.species.map(spec => axios.get<Species>(spec)))
+                person.speciesInfo = speciesInfo.map(elm => elm.data);
 
-                const planetPromise = axios.get<Planet>(person.homeworld).then((planetResponse) => {
-                    person.homeworld = planetResponse.data.name;
-                });
+                const homeworldInfo = await axios.get<Planet>(person.homeworld)
+                person.homeworldInfo = homeworldInfo.data
 
-                await Promise.all([planetPromise]);
-                console.log(person);
                 resolve(response.data);
             });
         } catch (error) {
