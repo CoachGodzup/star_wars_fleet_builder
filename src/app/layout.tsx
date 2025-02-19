@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import '@mantine/core/styles.css';
 
-import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+import { ColorSchemeScript, Container, mantineHtmlProps, Stack } from '@mantine/core';
 import { Providers } from "./providers";
+import { Navbar } from "@/components/nav/Navbar";
 
 
 const geistSans = Geist({
@@ -33,7 +34,12 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          {children}
+          <Container fluid pt={50}>
+            <Stack gap="xl">
+              <Navbar></Navbar>
+              {children}
+            </Stack>
+          </Container>
         </Providers>
       </body>
     </html>
