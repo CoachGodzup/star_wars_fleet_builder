@@ -1,17 +1,29 @@
-import { Starship } from "@/model/starship"
-import { Group, Avatar, Text } from "@mantine/core"
-import { IconRocket } from "@tabler/icons-react"
+import { Starship } from "@/model/starship";
+import { Group, Avatar, Text, MantineColor } from "@mantine/core";
+import { IconRocket } from "@tabler/icons-react";
 
 export type CardStarshipProps = {
-    starship: Starship
-}
+    starship: Starship;
+};
+
+const getColorByCrew = (crew: number): MantineColor => {
+    if (crew < 10) {
+        return 'cyan';
+    } else if (crew < 500) {
+        return 'teal';
+    } else if (crew < 10000) {
+        return 'blue';
+    }
+    return 'grape';
+};
 
 export const CardStarship: React.FC<CardStarshipProps> = ({ starship }) => {
-    return <Group wrap="nowrap">
+    return (
+        <Group wrap="nowrap">
             <Avatar
                 size={94}
                 radius="md"
-                color={'grape'}
+                color={getColorByCrew(Number(starship.crew))}
             >
                 <IconRocket size={60} />
             </Avatar>
@@ -36,5 +48,6 @@ export const CardStarship: React.FC<CardStarshipProps> = ({ starship }) => {
                     </Text>
                 </Group>
             </div>
-    </Group>
+        </Group>
+    );
 };
