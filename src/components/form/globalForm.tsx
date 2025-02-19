@@ -5,11 +5,10 @@ import { DetailForm } from './detailForm';
 import { CardStarship } from '../card/cardStarship';
 import { mockStarship } from '../../../test/mocks/mock.starship';
 import { TableFleet } from '../table/tableFleet';
-import { starshipList } from '../../../test/mocks/mock.starship.list';
-import { mockRandomSpeciesPeople } from '../../../test/mocks/mock.person.list';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/rootStore';
 import { DetailStoreData } from '@/store/detailReducer';
+import { mockAssignments } from '../../../test/mocks/mock.assignments';
 
 
 export type CompositionFormInputs = {
@@ -42,15 +41,6 @@ const GlobalForm: React.FC<GlobalFormProps> = ({onSubmit}) => {
             general,
         });
     }
-
-    const mockAssignments = [{
-        starship: mockStarship
-    }, {
-        starship: starshipList[3],
-        general: mockRandomSpeciesPeople[2]
-    },{
-        starship: mockStarship
-    }]
 
     return (
         <form onSubmit={handleSubmit}>

@@ -1,7 +1,7 @@
 'use client'
 
-import { Container, Textarea, TextInput } from "@mantine/core";
-import { ChangeEventHandler } from "react";
+import { Container, Fieldset, Paper, Textarea, TextInput } from "@mantine/core";
+import { ChangeEventHandler, useState } from "react";
 import CardPerson from "../card/cardPerson";
 import { mockPeople, mockRandomSpeciesPeople } from "../../../test/mocks/mock.person.list";
 import { Person } from "@/model/person";
@@ -20,9 +20,18 @@ const mockGetCommander = (search: string): Promise<Person> => {
 }
 
 export const DetailForm: React.FC = () => {
+    // TODO https://mantine.dev/form/validation/
+    const [commanderName, setCommanderName] = useState('');
+
     const detailStore = useSelector((state: RootState) => state.detail);
     const dispatch = useDispatch();
     
+    const handleCommanderName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCommanderName(event.currentTarget.value);
+        const commander = await mockGetCommander(event.currentTarget.value);
+        dispatch(setCommander(commander));
+    }
+
     const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = async (event) => {
         event.preventDefault();
         switch(event.currentTarget.name) {
@@ -32,23 +41,22 @@ export const DetailForm: React.FC = () => {
             case 'description':
                 dispatch(setDescription(event.currentTarget.value));
                 break;
-            case 'commander':
-                const commander = await mockGetCommander(event.currentTarget.value);
-                dispatch(setCommander(commander));
-                break;
         }
     }
 
     return (
         <Container>
-            <fieldset>
-                <label>Details</label>
+            <Fieldset legend='Details'>
                 <TextInput label='name' name='fleetName' data-testid='fleetName' onChange={handleChange} value={detailStore.name} required type='text' placeholder='Name' />
                 <Textarea label='description' name='description' data-testid='description' onChange={handleChange} value={detailStore.description} required placeholder='description' />
-            </fieldset>
+                <TextInput label='commander' name='commander' data-testid='commander' onChange={handleCommanderName} value={commanderName} required placeholder='commander' />
+            
+                <Paper withBorder p='md' mt={20}>
+                    <CardPerson person={detailStore.commander || mockRandomSpeciesPeople[2]} />
+                </Paper>
+            </Fieldset>
 
             {/*commander && <CardPerson person={commander} />*/}
-            <CardPerson person={detailStore.commander || mockRandomSpeciesPeople[2]} />
 
             <pre>{JSON.stringify(detailStore)}</pre>
         </Container>
