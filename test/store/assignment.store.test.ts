@@ -26,7 +26,7 @@ describe('assignmentReducer', () => {
     it('should remove a starship', () => {
         const starship: Starship = mockStarship;
         store.dispatch(addShip(starship));
-        store.dispatch(removeShip(starship));
+        store.dispatch(removeShip(0));
         const state = store.getState();
         expect(state.assignments).toHaveLength(0);
     });

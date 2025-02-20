@@ -11,6 +11,8 @@ import { addShip, reset } from "@/store/assignmentReducer";
 import { IconSearch } from "@tabler/icons-react";
 import { fetchStarships } from "@/api/swapi/starship";
 
+const skeletonShipList = Array(6).fill(null).map((_, i) => <Skeleton key={i}><Paper p={16} w={300} h={108} /></Skeleton>);
+
 export const CompositionForm: React.FC = () => {
     const [search, setSearch] = useState('');
     const [page, setPage] = useState<1 | 2 | 3 | 4>(1);
@@ -51,15 +53,6 @@ export const CompositionForm: React.FC = () => {
         dispatch(reset());
     };
 
-    const skeletonShipList = <>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
-    </>
-
     const shipList = useMemo(() => starshipList.map((ship, i) => (
         <SelectableCardStarship key={ship.url + i} starship={ship} onClick={addStarship} />
     )), [starshipList, addStarship]);
@@ -76,7 +69,7 @@ export const CompositionForm: React.FC = () => {
                 onChange={(event) => setSearch(event.currentTarget.value)}
             />
             <Text>{totalResults} result{totalResults !== 1 ? 's' : ''} found.</Text>
-                <SimpleGrid cols={2} spacing='md'>
+                <SimpleGrid cols={{ base: 1, lg: 2 }} spacing='md'>
                     {isLoading ? skeletonShipList : shipList}
                 </SimpleGrid>
             <Center>
@@ -99,7 +92,7 @@ export const CompositionForm: React.FC = () => {
                     <Flex justify='end'>
                         <button onClick={resetStarships}>Reset</button>
                     </Flex>
-                    <TableFleet assignments={fleetShips} />
+                    <TableFleet assignments={fleetShips} canRemove/>
                 </Paper>
             </SimpleGrid>
         </Container>

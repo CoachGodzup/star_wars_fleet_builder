@@ -23,9 +23,9 @@ const assignmentSlice = createSlice({
             ...state,
             assignments: [...state.assignments, { starship: action.payload }],
         }),
-        removeShip: (state, action: PayloadAction<Starship>) => ({
+        removeShip: (state, action: PayloadAction<number>) => ({
             ...state,
-            assignments: state.assignments.filter(elm => elm.starship.url !== action.payload.url),
+            assignments: state.assignments.filter((elm, i) => i !== action.payload),
         }),
         assignGeneral: (state, action: PayloadAction<Assignment>) => ({
             ...state,
