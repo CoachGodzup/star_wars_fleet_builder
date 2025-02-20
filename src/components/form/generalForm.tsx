@@ -12,7 +12,7 @@ export const GeneralForm: React.FC = () => {
     return (
         <Container>
             <Fieldset legend="Assign Generals">
-                <TableFleet assignments={fleet} />
+                <TableFleet assignments={fleet} canAssignGeneral/>
             </Fieldset>
         </Container>
     );

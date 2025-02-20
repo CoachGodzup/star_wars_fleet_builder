@@ -5,8 +5,8 @@ import { Assignment } from "@/model/assignment";
 import { mockStarship } from "../mocks/mock.starship";
 import { mockPerson } from "../mocks/mock.person";
 import { Person } from "@/model/person";
-import { starshipList } from "../mocks/mock.starship.list";
 import { mockPeople } from "../mocks/mock.person.list";
+import { starshipList } from "../mocks/mock.starship.list";
 
 describe('assignmentReducer', () => {
     let store: AssignmentStore;
@@ -34,22 +34,10 @@ describe('assignmentReducer', () => {
     it('should assign a general to a starship', () => {
         const starship: Starship = mockStarship;
         const general: Person = mockPerson;
-        const assignment: Assignment = { starship, general };
         store.dispatch(addShip(starship));
-        store.dispatch(assignGeneral(assignment));
+        store.dispatch(assignGeneral({index: 0, general}));
         const state = store.getState();
-        expect(state.assignments[0].general).toEqual(assignment.general);
-    });
-
-    it('should not assign a general to a non-existing starship', () => {
-        const storedStarship: Starship = starshipList[0];
-        const assignedStarship: Starship = starshipList[1];
-        const general: Person = mockPerson;
-        const assignment: Assignment = { starship: assignedStarship, general };
-        store.dispatch(addShip(storedStarship));
-        store.dispatch(assignGeneral(assignment));
-        const state = store.getState();
-        expect(state.assignments[0].general).not.toEqual(assignment.general);
+        expect(state.assignments[0].general).toEqual(general);
     });
 
     it('should remove a general from a starship', () => {
@@ -57,7 +45,7 @@ describe('assignmentReducer', () => {
         const general: Person = mockPerson;
         const assignment: Assignment = { starship, general };
         store.dispatch(addShip(starship));
-        store.dispatch(assignGeneral(assignment));
+        store.dispatch(assignGeneral({index: 0, general}));
         store.dispatch(removeGeneral(assignment));
         const state = store.getState();
         expect(state.assignments[0].general).toBeUndefined();
@@ -67,40 +55,37 @@ describe('assignmentReducer', () => {
         const starship: Starship = mockStarship;
         const storedGeneral: Person = mockPeople[0];
         const assignedGeneral: Person = mockPeople[1];
-        const storedAssignment: Assignment = { starship, general: storedGeneral };
         const removedAssignment: Assignment = { starship, general: assignedGeneral };
         store.dispatch(addShip(starship));
-        store.dispatch(assignGeneral(storedAssignment));
+        store.dispatch(assignGeneral({index: 0, general: storedGeneral}));
         store.dispatch(removeGeneral(removedAssignment));
         const state = store.getState();
         expect(state.assignments[0].general).toEqual(storedGeneral);
         expect(state.assignments[0].general).not.toEqual(assignedGeneral);
     });
 
-    it('should remove general if general of new assignment is empty', () => {
-        const general: Person = mockPerson;
+    it('should move an already assigned general', () => {
+        const firstStarship: Starship = starshipList[0];
+        const secondStarship: Starship = starshipList[0];
         
-        const starship: Starship = starshipList[0];
+        const general: Person = mockPeople[2];
+        store.dispatch(addShip(firstStarship));
+        store.dispatch(addShip(secondStarship));
 
-        const firstAssignment: Assignment = { starship, general };
-        const secondAssignment: Assignment = { starship };
-
-        store.dispatch(addShip(starship));
-
-        store.dispatch(assignGeneral(firstAssignment));
-        store.dispatch(assignGeneral(secondAssignment));
+        store.dispatch(assignGeneral({index: 0, general: general}));
+        store.dispatch(assignGeneral({index: 1, general: general}));
 
         const state = store.getState();
-        expect(state.assignments.length).toEqual(1);
+
+        expect(state.assignments[1].general).toEqual(general);
         expect(state.assignments[0].general).not.toEqual(general);
-    });
+    })
 
     it('should reset the store', () => {
         const starship: Starship = mockStarship;
         const general: Person = mockPerson;
-        const assignment: Assignment = { starship, general };
         store.dispatch(addShip(starship));
-        store.dispatch(assignGeneral(assignment));
+        store.dispatch(assignGeneral({index: 0, general}));
         store.dispatch(reset());
         const state = store.getState();
         expect(state.assignments).toHaveLength(0);

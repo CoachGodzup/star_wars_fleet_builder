@@ -1,4 +1,5 @@
 import { Assignment } from "@/model/assignment";
+import { Person } from "@/model/person";
 import { Starship } from "@/model/starship";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { setupListeners } from '@reduxjs/toolkit/query';
@@ -10,6 +11,11 @@ export type AssignmentStoreData = {
 const initialState: AssignmentStoreData = {
     assignments: [],
 };
+
+type AssignGeneralActionPayload = {
+    index: number,
+    general: Person,
+}
 
 const assignmentSlice = createSlice({
     name: 'assignment',
@@ -25,11 +31,13 @@ const assignmentSlice = createSlice({
         }),
         removeShip: (state, action: PayloadAction<number>) => ({
             ...state,
-            assignments: state.assignments.filter((elm, i) => i !== action.payload),
+            assignments: state.assignments.filter((_, i) => i !== action.payload),
         }),
-        assignGeneral: (state, action: PayloadAction<Assignment>) => ({
+        assignGeneral: (state, action: PayloadAction<AssignGeneralActionPayload>) => ({
             ...state,
-            assignments: state.assignments.map(elm => elm.starship.url !== action.payload.starship.url ? elm : action.payload),
+            assignments: state.assignments
+                .map((elm) => elm.general?.url === action.payload.general.url ? {...elm, general: undefined} : elm)
+                .map((elm, i) => i !== action.payload.index ? elm : {...elm, general: action.payload.general})
         }),
         removeGeneral: (state, action: PayloadAction<Assignment>) => ({
             ...state,

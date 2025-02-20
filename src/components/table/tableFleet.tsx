@@ -1,20 +1,28 @@
 'use client'
 
 import { Assignment } from "@/model/assignment";
-import { removeShip } from "@/store/assignmentReducer";
-import { Avatar, Badge, CloseButton, Group, Table, Text } from "@mantine/core";
+import { assignGeneral, removeShip } from "@/store/assignmentReducer";
+import { Avatar, CloseButton, Group, Table, Text } from "@mantine/core";
+import { IconUserFilled } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
+import { mockPerson } from "../../../test/mocks/mock.person";
 
 type TableFleetProps = {
     assignments: Assignment[];
     canRemove?: boolean;
+    canAssignGeneral?: boolean
 }
 
-export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove = false }) => {
+export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove = false, canAssignGeneral = false }) => {
     const dispatch = useDispatch();
 
     const handleRemove = (index: number) => {
         dispatch(removeShip(index));
+    }
+
+    const handleAssignGeneral = (index: number) => {
+        const general = mockPerson;
+        dispatch(assignGeneral({index, general}));
     }
 
     return (
@@ -65,6 +73,7 @@ export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove =
                         </Table.Td>
                         <Table.Td>
                             {canRemove ? <CloseButton onClick={() => handleRemove(index)}></CloseButton>: <></>}
+                            {canAssignGeneral ? <CloseButton icon={<IconUserFilled></IconUserFilled>} onClick={() => handleAssignGeneral(index)}></CloseButton> : <></>}
                          </Table.Td>
                     </Table.Tr>
                 ))}
