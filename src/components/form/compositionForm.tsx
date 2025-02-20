@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Fieldset, SimpleGrid, Paper, Flex, TextInput, Text, Pagination, Center, Loader, Stack } from "@mantine/core";
+import { Container, Fieldset, SimpleGrid, Paper, Flex, TextInput, Text, Pagination, Center, Stack, Skeleton, Loader } from "@mantine/core";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TableFleet } from "../table/tableFleet";
 import { Starship } from "@/model/starship";
@@ -51,6 +51,15 @@ export const CompositionForm: React.FC = () => {
         dispatch(reset());
     };
 
+    const skeletonShipList = <>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+        <Skeleton><Paper p={16} w={300} h={108} /></Skeleton>
+    </>
+
     const shipList = useMemo(() => starshipList.map((ship, i) => (
         <SelectableCardStarship key={ship.url + i} starship={ship} onClick={addStarship} />
     )), [starshipList, addStarship]);
@@ -60,17 +69,16 @@ export const CompositionForm: React.FC = () => {
             <TextInput
                 leftSectionPointerEvents={'none'}
                 leftSection={<IconSearch size={16} />}
+                rightSectionPointerEvents={'none'}
+                rightSection={isLoading ? <Loader size={16} /> : <></>}
                 placeholder="e.g. 'Death Star', 'wing'"
                 value={search}
                 onChange={(event) => setSearch(event.currentTarget.value)}
             />
             <Text>{totalResults} result{totalResults !== 1 ? 's' : ''} found.</Text>
-            { isLoading ? <Center>
-                    <Loader size={60} />
-                </Center> : 
                 <SimpleGrid cols={2} spacing='md'>
-                    {shipList}
-                </SimpleGrid>}
+                    {isLoading ? skeletonShipList : shipList}
+                </SimpleGrid>
             <Center>
                 <Pagination 
                     total={totalPage}
