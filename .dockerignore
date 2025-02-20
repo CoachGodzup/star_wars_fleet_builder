@@ -1,5 +1,10 @@
 coverage/*
-test/*
+
+test/api/*
+test/components/*
+test/store/*
+test/test-utils/*
+
 .gitignore
 .git
 README.md

@@ -43,13 +43,15 @@ export const TableFleet: React.FC<TableFleetProps> = ({ assignments }) => {
                         )}
                     </Table.Td>
                     <Table.Td>
-                        TODO ASSIGN GENERAL
-                        {/*<Select
-                            data={rolesData}
-                            defaultValue={item.role}
-                            variant="unstyled"
-                            allowDeselect={false}
-                        />*/}
+                        {/*
+                            TODO ASSIGN GENERAL
+                            <Select
+                                data={rolesData}
+                                defaultValue={item.role}
+                                variant="unstyled"
+                                allowDeselect={false}
+                            />*/
+                        }
                     </Table.Td>
                     <Table.Td>
                         {assignment.general ? (
