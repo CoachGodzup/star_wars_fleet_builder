@@ -1,11 +1,11 @@
-import { Assignment } from "./assignment";
-import { Person } from "./person";
-import { Starship } from "./starship";
+import { Assignment } from './assignment';
+import { Person } from './person';
+import { Starship } from './starship';
 
 export type Fleet = {
-    name: string;
-    description: string;
-    commander: Person;
-    composition: Starship[];
-    generals: Assignment[] ;
-}
+  name: string;
+  description: string;
+  commander: Person;
+  composition: Starship[];
+  generals: Assignment[];
+};

@@ -1,7 +1,7 @@
-import { Person } from "./person";
-import { Starship } from "./starship";
+import { Person } from './person';
+import { Starship } from './starship';
 
 export type Assignment = {
-    general?: Person;
-    starship: Starship;
-}
+  general?: Person;
+  starship: Starship;
+};

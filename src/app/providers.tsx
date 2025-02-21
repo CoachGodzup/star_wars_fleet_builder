@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { MantineProvider } from "@mantine/core";
-import { store as rootStore } from "@/store/rootStore";
-import { Provider as StoreProvider } from "react-redux";
-import { Notifications } from "@mantine/notifications";
+import { MantineProvider } from '@mantine/core';
+import { store as rootStore } from '@/store/rootStore';
+import { Provider as StoreProvider } from 'react-redux';
+import { Notifications } from '@mantine/notifications';
 
 export const Providers: React.FC<React.PropsWithChildren> = ({ children }) => (
   <MantineProvider>
@@ -12,4 +12,4 @@ export const Providers: React.FC<React.PropsWithChildren> = ({ children }) => (
       <Notifications />
     </StoreProvider>
   </MantineProvider>
-)
+);

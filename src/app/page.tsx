@@ -1,5 +1,5 @@
-import { Center, Container } from "@mantine/core";
-import Link from "next/link";
+import { Center, Container } from '@mantine/core';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <section>
         <Container fluid>
           <Center>
-            <Link href="/detail">{"Let's Start"}</Link>
+            <Link href='/detail'>{"Let's Start"}</Link>
           </Center>
         </Container>
       </section>
