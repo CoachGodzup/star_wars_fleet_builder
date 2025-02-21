@@ -11,7 +11,7 @@ export type PersonInputProps = Omit<AutocompleteProps, 'value' | 'onChange' | 'd
 };
 
 export const PersonInput: React.FC<PersonInputProps> = (props) => {
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(props.value?.name || '');
     const [person, setPerson] = useState<Person | undefined>(props.value);
     const [personList, setPersonList] = useState<Person[]>([]);
 

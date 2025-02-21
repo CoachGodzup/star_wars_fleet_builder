@@ -1,3 +1,5 @@
+'use client'
+
 import { Person } from '@/model/person';
 import { Group, Avatar, Text, Loader } from '@mantine/core';
 import React, { useCallback, useEffect } from 'react';

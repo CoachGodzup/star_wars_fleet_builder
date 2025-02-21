@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Fieldset, SimpleGrid, Paper, Flex, TextInput, Text, Pagination, Center, Stack, Skeleton, Loader } from "@mantine/core";
+import { Container, Fieldset, SimpleGrid, Paper, Flex, TextInput, Text, Pagination, Center, Stack, Skeleton, Loader, Button, Group } from "@mantine/core";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TableFleet } from "../table/tableFleet";
 import { Starship } from "@/model/starship";
@@ -10,6 +10,9 @@ import { RootState } from "@/store/rootStore";
 import { addShip, reset } from "@/store/assignmentReducer";
 import { IconSearch } from "@tabler/icons-react";
 import { fetchStarships } from "@/api/swapi/starship";
+import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
+import { NavButtons } from "../nav/NavButtons";
 
 const skeletonShipList = Array(6).fill(null).map((_, i) => <Skeleton key={i}><Paper p={16} w={300} h={108} /></Skeleton>);
 
@@ -18,6 +21,8 @@ export const CompositionForm: React.FC = () => {
     const [page, setPage] = useState<1 | 2 | 3 | 4>(1);
     const [totalPage, setTotalPage] = useState(4);
     const [totalResults, setTotalResults] = useState(0);
+
+    const router = useRouter();
 
     const [isLoading, setLoading] = useState(false);
     const [starshipList, setStarshipList] = useState<Starship[]>([]);
@@ -31,6 +36,24 @@ export const CompositionForm: React.FC = () => {
             search,
             page,
         });
+    }
+
+    const handlePrev = () => {
+        router.push('/detail');
+    }
+
+    const handleNext = () => {
+        if (fleetShips.length > 0) {
+            router.push('/general');
+        } else {
+            notifications.show({
+                title: 'Aw, ships!', 
+                message: 'Please add at least one starship to your fleet',
+                color: 'red',
+                withCloseButton: true,
+                autoClose: 3000,
+            });
+        }
     }
 
     useEffect(() => {
@@ -84,6 +107,13 @@ export const CompositionForm: React.FC = () => {
 
     return (
         <Container fluid>
+            <NavButtons 
+                prev={{url: '/detail'}} 
+                next={{
+                    url: '/general', 
+                    isValid: fleetShips.length > 0, 
+                    invalidMessage: 'Please add at least one starship to your fleet'
+                }} />
             <SimpleGrid cols={2} spacing='md'>
                 <Fieldset legend="Add starships">
                     {shipSelector}

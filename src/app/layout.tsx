@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import { ColorSchemeScript, Container, mantineHtmlProps, Stack } from '@mantine/core';
 import { Providers } from "./providers";

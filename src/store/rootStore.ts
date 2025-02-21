@@ -3,11 +3,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { detailReducer } from './detailReducer';
 import { assignmentReducer } from './assignmentReducer';
+import { navReducer } from './navStore';
 
 const rootReducer = {
+    nav: navReducer,
     detail: detailReducer,
     assignment: assignmentReducer,
-    // Add your reducers here
 };
 
 export const store = configureStore({
