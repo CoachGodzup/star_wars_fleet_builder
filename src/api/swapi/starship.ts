@@ -3,8 +3,6 @@ import { Starship } from '@/model/starship';
 import { SwapiMultipleResponse } from '@/model/swapiMultipleResponse';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
-export const ALL_STARSHIPS_PAGES = 4;
-export const STARSHIPS_PER_PAGE = 36;
 
 type StarshipPageNumber = 1 | 2 | 3 | 4;
 

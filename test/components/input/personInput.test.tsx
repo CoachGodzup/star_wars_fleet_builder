@@ -1,18 +1,17 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { PersonInput } from '@/components/inputs/personInput';
 import { mockPeople } from '../../mocks/mock.person.list';
 import { searchPerson } from '@/api/swapi/person';
-
-jest.mock('@/api/swapi/person');
+import { render } from '../../test-utils/render';
 
 describe('PersonInput', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders without crashing, and displays initial value if provided', () => {
+  it('renders without crashing, and displays initial value if provided', async () => {
     render(<PersonInput value={mockPeople[0]} />);
     expect(screen.getByDisplayValue(mockPeople[0].name)).toBeInTheDocument();
   });
