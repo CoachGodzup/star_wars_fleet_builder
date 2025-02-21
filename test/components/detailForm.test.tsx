@@ -21,7 +21,6 @@ describe('Detail Form Component', () => {
     const state: DetailStoreData = {
       name: '',
       description: '',
-      commander: null,
     };
     const setState = jest.fn();
 

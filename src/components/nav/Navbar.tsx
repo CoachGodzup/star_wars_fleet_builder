@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
     <Stepper active={active} onStepClick={handleStepClick}>
       <Stepper.Step
         label='Fleet details'
-        description='Basiccommander'
+        description='Basic infos'
       ></Stepper.Step>
       <Stepper.Step
         label='Fleet composition'
