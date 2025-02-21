@@ -7,13 +7,14 @@ import { RootState } from "@/store/rootStore";
 
 export const GeneralForm: React.FC = () => {
     const fleet = useSelector((state: RootState) => state.assignment.assignments);
-   // const dispatch = useDispatch();
 
     return (
-        <Container>
+        <Container fluid>
             <Fieldset legend="Assign Generals">
                 <TableFleet assignments={fleet} canAssignGeneral/>
             </Fieldset>
         </Container>
+
+
     );
 }

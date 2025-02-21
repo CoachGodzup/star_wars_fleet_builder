@@ -1,35 +1,33 @@
 'use client'
 
-import { Container, Fieldset, Paper, Textarea, TextInput } from "@mantine/core";
+import { Autocomplete, Container, Fieldset, Paper, Textarea, TextInput } from "@mantine/core";
 import { ChangeEventHandler, useState } from "react";
 import CardPerson from "../card/cardPerson";
-import { mockPeople, mockRandomSpeciesPeople } from "../../../test/mocks/mock.person.list";
 import { Person } from "@/model/person";
 import { useDispatch, useSelector } from "react-redux";
 import { setName, setDescription, setCommander } from "@/store/detailReducer";
 import { RootState } from "@/store/rootStore";
-
-const mockGetCommander = (search: string): Promise<Person> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(
-                [...mockPeople, ...mockRandomSpeciesPeople].find(p => p.name === search) || mockRandomSpeciesPeople[2]
-            )
-        }, 100);
-    });
-}
+import { searchPerson } from "@/api/swapi/person";
+import { mockRandomSpeciesPeople } from "../../../test/mocks/mock.person.list";
 
 export const DetailForm: React.FC = () => {
     // TODO https://mantine.dev/form/validation/
     const [commanderName, setCommanderName] = useState('');
+    const [commanderList, setCommanderList] = useState<Person[]>([]);
 
     const detailStore = useSelector((state: RootState) => state.detail);
     const dispatch = useDispatch();
     
-    const handleCommanderName = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCommanderName(event.currentTarget.value);
-        const commander = await mockGetCommander(event.currentTarget.value);
-        dispatch(setCommander(commander));
+    const handleCommanderName = async (search: string) => {
+        setCommanderName(search);
+
+        const commanderList = await searchPerson({type: 'search', search});
+        setCommanderList(commanderList);
+
+        const foundedCommander = commanderList.find(c => c.name === search)
+        if(foundedCommander) {
+            dispatch(setCommander(foundedCommander))
+        }
     }
 
     const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = async (event) => {
@@ -49,8 +47,11 @@ export const DetailForm: React.FC = () => {
             <Fieldset legend='Details'>
                 <TextInput label='name' name='fleetName' data-testid='fleetName' onChange={handleChange} value={detailStore.name} required type='text' placeholder='Name' />
                 <Textarea label='description' name='description' data-testid='description' onChange={handleChange} value={detailStore.description} required placeholder='description' />
-                <TextInput label='commander' name='commander' data-testid='commander' onChange={handleCommanderName} value={commanderName} required placeholder='commander' />
-            
+
+                <Autocomplete label='commander' name='commander' data-testid='commander' limit={5}
+                    onChange={handleCommanderName} value={commanderName} required placeholder='commander' 
+                    data={commanderList.map(c => c.name)}></Autocomplete>
+
                 <Paper withBorder p='md' mt={20}>
                     <CardPerson person={detailStore.commander || mockRandomSpeciesPeople[2]} />
                 </Paper>
@@ -58,7 +59,7 @@ export const DetailForm: React.FC = () => {
 
             {/*commander && <CardPerson person={commander} />*/}
 
-            <pre>{JSON.stringify(detailStore)}</pre>
+            <pre>{JSON.stringify(commanderList)}</pre>
         </Container>
     );
 }
