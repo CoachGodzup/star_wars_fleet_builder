@@ -1,55 +1,9 @@
 import { Starship } from '@/model/starship';
-import { Group, Avatar, Text, MantineColor } from '@mantine/core';
-import {
-  IconPlane,
-  IconPlanet,
-  IconRocket,
-  IconSatellite,
-  IconSend,
-} from '@tabler/icons-react';
+import { getColorByCrew, getIconByCrew } from '@/utils/starship';
+import { Group, Avatar, Text } from '@mantine/core';
 
 export type CardStarshipProps = {
   starship: Starship;
-};
-
-const CREW_THRESHOLDS = {
-  fighter: 2,
-  small: 10,
-  medium: 500,
-  large: 10000,
-};
-
-const ICON_SIZE = 60;
-
-const getIconByCrew = (crew: number) => {
-  if (crew < CREW_THRESHOLDS.fighter) {
-    return <IconPlane size={ICON_SIZE}></IconPlane>;
-  }
-  if (crew < CREW_THRESHOLDS.small) {
-    return <IconRocket size={ICON_SIZE}></IconRocket>;
-  }
-  if (crew < CREW_THRESHOLDS.medium) {
-    return <IconSend size={ICON_SIZE}></IconSend>;
-  }
-  if (crew < CREW_THRESHOLDS.large) {
-    return <IconSatellite size={ICON_SIZE}></IconSatellite>;
-  }
-  return <IconPlanet size={ICON_SIZE}></IconPlanet>;
-};
-const getColorByCrew = (crew: number): MantineColor => {
-  if (crew < CREW_THRESHOLDS.fighter) {
-    return 'lime';
-  }
-  if (crew < CREW_THRESHOLDS.small) {
-    return 'cyan';
-  }
-  if (crew < CREW_THRESHOLDS.medium) {
-    return 'teal';
-  }
-  if (crew < CREW_THRESHOLDS.large) {
-    return 'blue';
-  }
-  return 'grape';
 };
 
 export const CardStarship: React.FC<CardStarshipProps> = ({ starship }) => {

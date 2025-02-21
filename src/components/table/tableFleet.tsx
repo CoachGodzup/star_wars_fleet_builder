@@ -7,6 +7,7 @@ import {
   removeGeneral,
   removeShip,
 } from '@/store/assignmentReducer';
+import { getColorByCrew, getIconByCrew } from '@/utils/starship';
 import { Avatar, CloseButton, Group, Table, Text } from '@mantine/core';
 import { IconUserMinus, IconUserStar } from '@tabler/icons-react';
 import { useDispatch } from 'react-redux';
@@ -49,10 +50,12 @@ export const TableFleet: React.FC<TableFleetProps> = ({
               <Group gap='sm'>
                 <Avatar
                   size={40}
-                  color={'initials'}
+                  color={getColorByCrew(Number(assignment.starship.crew))}
                   radius={40}
                   name={assignment.starship.name}
-                />
+                >
+                  {getIconByCrew(Number(assignment.starship.crew))}
+                </Avatar>
                 <div>
                   <Text fz='sm' fw={500}>
                     {assignment.starship.name}
