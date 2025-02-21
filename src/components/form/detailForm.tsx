@@ -1,6 +1,6 @@
 'use client'
 
-import { Autocomplete, Container, Fieldset, Paper, Textarea, TextInput } from "@mantine/core";
+import { Container, Fieldset, Paper, Textarea, TextInput } from "@mantine/core";
 import { ChangeEventHandler, useState } from "react";
 import CardPerson from "../card/cardPerson";
 import { Person } from "@/model/person";
@@ -9,6 +9,7 @@ import { setName, setDescription, setCommander } from "@/store/detailReducer";
 import { RootState } from "@/store/rootStore";
 import { searchPerson } from "@/api/swapi/person";
 import { mockRandomSpeciesPeople } from "../../../test/mocks/mock.person.list";
+import { PersonInput } from "../inputs/personInput";
 
 export const DetailForm: React.FC = () => {
     // TODO https://mantine.dev/form/validation/
@@ -48,18 +49,14 @@ export const DetailForm: React.FC = () => {
                 <TextInput label='name' name='fleetName' data-testid='fleetName' onChange={handleChange} value={detailStore.name} required type='text' placeholder='Name' />
                 <Textarea label='description' name='description' data-testid='description' onChange={handleChange} value={detailStore.description} required placeholder='description' />
 
-                <Autocomplete label='commander' name='commander' data-testid='commander' limit={5}
+                <PersonInput label='commander' name='commander' data-testid='commander' limit={5}
                     onChange={handleCommanderName} value={commanderName} required placeholder='commander' 
-                    data={commanderList.map(c => c.name)}></Autocomplete>
-
+                    data={commanderList.map(c => c.name)}></PersonInput>
+                
                 <Paper withBorder p='md' mt={20}>
                     <CardPerson person={detailStore.commander || mockRandomSpeciesPeople[2]} />
                 </Paper>
             </Fieldset>
-
-            {/*commander && <CardPerson person={commander} />*/}
-
-            <pre>{JSON.stringify(commanderList)}</pre>
         </Container>
     );
 }
