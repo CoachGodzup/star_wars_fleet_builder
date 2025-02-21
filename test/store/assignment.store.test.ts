@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { assignmentReducer, addShip, removeShip, assignGeneral, removeGeneral, AssignmentStore, reset } from "@/store/assignmentReducer";
 import { Starship } from "@/model/starship";
-import { Assignment } from "@/model/assignment";
 import { mockStarship } from "../mocks/mock.starship";
 import { mockPerson } from "../mocks/mock.person";
 import { Person } from "@/model/person";
@@ -43,25 +42,23 @@ describe('assignmentReducer', () => {
     it('should remove a general from a starship', () => {
         const starship: Starship = mockStarship;
         const general: Person = mockPerson;
-        const assignment: Assignment = { starship, general };
         store.dispatch(addShip(starship));
         store.dispatch(assignGeneral({index: 0, general}));
-        store.dispatch(removeGeneral(assignment));
+        store.dispatch(removeGeneral(0));
         const state = store.getState();
         expect(state.assignments[0].general).toBeUndefined();
     });
 
-    it('should not remove a non-assigned general', () => {
+    it('should not overflow index', () => {
         const starship: Starship = mockStarship;
-        const storedGeneral: Person = mockPeople[0];
-        const assignedGeneral: Person = mockPeople[1];
-        const removedAssignment: Assignment = { starship, general: assignedGeneral };
+        const general: Person = mockPeople[0];
+
         store.dispatch(addShip(starship));
-        store.dispatch(assignGeneral({index: 0, general: storedGeneral}));
-        store.dispatch(removeGeneral(removedAssignment));
+        store.dispatch(assignGeneral({index: 2, general: general}));
+
         const state = store.getState();
-        expect(state.assignments[0].general).toEqual(storedGeneral);
-        expect(state.assignments[0].general).not.toEqual(assignedGeneral);
+        expect(state.assignments[0].general).toBeUndefined();
+        expect(state.assignments[2]).toBeUndefined();
     });
 
     it('should move an already assigned general', () => {

@@ -1,19 +1,20 @@
 'use client'
 
 import { Assignment } from "@/model/assignment";
-import { assignGeneral, removeShip } from "@/store/assignmentReducer";
+import { assignGeneral, removeGeneral, removeShip } from "@/store/assignmentReducer";
 import { Avatar, CloseButton, Group, Table, Text } from "@mantine/core";
-import { IconUserStar } from "@tabler/icons-react";
+import { IconUserMinus, IconUserStar } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
 import { mockPerson } from "../../../test/mocks/mock.person";
 
 type TableFleetProps = {
     assignments: Assignment[];
     canRemove?: boolean;
-    canAssignGeneral?: boolean
+    canAssignGeneral?: boolean;
+    newGeneral?: Person;
 }
 
-export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove = false, canAssignGeneral = false }) => {
+export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove = false, canAssignGeneral = false, newGeneral }) => {
     const dispatch = useDispatch();
 
     const handleRemove = (index: number) => {
@@ -21,8 +22,11 @@ export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove =
     }
 
     const handleAssignGeneral = (index: number) => {
-        const general = mockPerson;
-        dispatch(assignGeneral({index, general}));
+        if (newGeneral) {dispatch(assignGeneral({index, general: newGeneral}))};
+    }
+
+    const handleRemoveGeneral = (index: number) => {
+        dispatch(removeGeneral(index));
     }
 
     return (
@@ -72,8 +76,9 @@ export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove =
                             }
                         </Table.Td>
                         <Table.Td>
+                            {canAssignGeneral && !assignment.general ? <CloseButton icon={<IconUserStar></IconUserStar>} onClick={() => handleAssignGeneral(index)}></CloseButton> : <></>}
+                            {canAssignGeneral && assignment.general ? <CloseButton icon={<IconUserMinus></IconUserMinus>} onClick={() => handleRemoveGeneral(index)}></CloseButton> : <></>}
                             {canRemove ? <CloseButton onClick={() => handleRemove(index)}></CloseButton>: <></>}
-                            {canAssignGeneral ? <CloseButton icon={<IconUserStar></IconUserStar>} onClick={() => handleAssignGeneral(index)}></CloseButton> : <></>}
                          </Table.Td>
                     </Table.Tr>
                 ))}

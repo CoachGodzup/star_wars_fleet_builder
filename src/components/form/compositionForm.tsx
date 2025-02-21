@@ -85,15 +85,15 @@ export const CompositionForm: React.FC = () => {
     return (
         <Container fluid>
             <SimpleGrid cols={2} spacing='md'>
-                <Fieldset legend="Fleet Composition">
+                <Fieldset legend="Add starships">
                     {shipSelector}
                 </Fieldset>
-                <Paper withBorder p='md'>
+                <Fieldset legend="Your fleet">
                     <Flex justify='end'>
                         <button onClick={resetStarships}>Reset</button>
                     </Flex>
                     <TableFleet assignments={fleetShips} canRemove/>
-                </Paper>
+                </Fieldset>
             </SimpleGrid>
         </Container>
     );

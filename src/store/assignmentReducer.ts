@@ -39,9 +39,9 @@ const assignmentSlice = createSlice({
                 .map((elm) => elm.general?.url === action.payload.general.url ? {...elm, general: undefined} : elm)
                 .map((elm, i) => i !== action.payload.index ? elm : {...elm, general: action.payload.general})
         }),
-        removeGeneral: (state, action: PayloadAction<Assignment>) => ({
+        removeGeneral: (state, action: PayloadAction<number>) => ({
             ...state,
-            assignments: state.assignments.map(elm => elm.starship.url !== action.payload.starship.url || elm.general?.url !== action.payload.general?.url ? elm : { starship: action.payload.starship }),
+            assignments: state.assignments.map((elm, index) => index === action.payload ? { ...elm, general: undefined } : elm),
         }),
     },
 });

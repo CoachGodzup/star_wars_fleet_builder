@@ -5,13 +5,12 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 export type DetailStoreData = {
     name: string;
     description: string;
-    commander: Person | null;
+    commander?: Person;
 }
 
 const initialState: DetailStoreData = {
     name: '',
     description: '',
-    commander: null,
 }
 
 const detailSlice = createSlice({
