@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Planet } from '@/model/planet';
 import { cacheable } from '../cache';
 

@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { Species } from '@/model/species';
+import { cacheable } from '../cache';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
@@ -17,8 +17,8 @@ export const fetchSpecies: (req: FetchSpeciesRequest) => Promise<Species[]> = (
     try {
       const URI = `${SWAPI_BASE_URL}/species/${request.id}`;
 
-      const response = await axios.get<Species[]>(URI);
-      resolve(response.data);
+      const response = await cacheable<Species[]>(URI);
+      resolve(response);
     } catch (error) {
       reject(error);
     }
@@ -26,12 +26,5 @@ export const fetchSpecies: (req: FetchSpeciesRequest) => Promise<Species[]> = (
 };
 
 export const fetchSpeciesByUrl: (url: string) => Promise<Species> = (url) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response = await axios.get<Species>(url);
-      resolve(response.data);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return cacheable(url);
 };
