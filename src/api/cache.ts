@@ -1,20 +1,27 @@
-export class LocalCache {
-  static set<T>(url: string, data: T): void {
-    localStorage.setItem(url, JSON.stringify(data));
-  }
+import axios from 'axios';
 
-  static get<T>(url: string): T | null {
-    const data = localStorage.getItem(url);
-    return data ? JSON.parse(data) : null;
-  }
+export const setCache = <T>(url: string, data: T): void => {
+  localStorage.setItem(url, JSON.stringify(data));
+};
 
-  static remove(url: string): void {
-    localStorage.removeItem(url);
-  }
+export const getCache = <T>(url: string): T | undefined => {
+  const data = localStorage.getItem(url);
+  return data ? JSON.parse(data) : undefined;
+};
 
-  static clear(): void {
-    localStorage.clear();
-  }
-}
-
-export default Cache;
+export const cacheable = <T>(url: string): Promise<T> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const dataFromCache = getCache<T>(url);
+      if (dataFromCache) {
+        resolve(dataFromCache);
+      } else {
+        const response = await axios.get<T>(url);
+        setCache(url, response.data);
+        resolve(response.data);
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};

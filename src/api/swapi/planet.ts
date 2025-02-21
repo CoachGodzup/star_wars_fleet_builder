@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Planet } from '@/model/planet';
+import { cacheable } from '../cache';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
@@ -25,8 +26,8 @@ export const fetchPlanets: (req: FetchPlanetRequest) => Promise<Planet[]> = (
           ? `${SWAPI_BASE_URL}/planets/?search=${request.search}`
           : `${SWAPI_BASE_URL}/planets/${request.id}`;
 
-      const response = await axios.get<Planet[]>(URI);
-      resolve(response.data);
+      const response = await cacheable<Planet[]>(URI);
+      resolve(response);
     } catch (error) {
       reject(error);
     }
@@ -34,12 +35,5 @@ export const fetchPlanets: (req: FetchPlanetRequest) => Promise<Planet[]> = (
 };
 
 export const fetchPlanetByUrl: (url: string) => Promise<Planet> = (url) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response = await axios.get<Planet>(url);
-      resolve(response.data);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return cacheable<Planet>(url);
 };
