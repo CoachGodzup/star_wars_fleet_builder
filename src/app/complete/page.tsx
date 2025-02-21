@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge, Button, Card, Center, Container, Group, Image, Text } from '@mantine/core';
+import { Card, Center, Container, Group, Image, Text } from '@mantine/core';
 import React from 'react';
 
 export const CompletePage: React.FC = () => {
