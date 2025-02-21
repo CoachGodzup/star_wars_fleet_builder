@@ -29,7 +29,9 @@ export const DetailForm: React.FC = () => {
   };
 
   const handleCommander = (commander: Person) => {
-    dispatch(setCommander(commander));
+    if (commander !== detailStore.commander) {
+      dispatch(setCommander(commander));
+    }
   };
 
   const handleChange: ChangeEventHandler<
