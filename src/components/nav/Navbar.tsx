@@ -1,31 +1,35 @@
 'use client'
 
 import { Stepper } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const STEP_PAGES = ['detail', 'composition', 'general', 'complete'];
 
 export const Navbar: React.FC = () => {
-    const stepPages = ['detail', 'composition', 'general'];
     const [active, setActive] = useState(0);
     const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const step = STEP_PAGES.findIndex(page => pathname.includes(page));
+        setActive(step);
+    }, [pathname]);
 
     const handleStepClick = (step: number) => {
-        setActive(step);
-        router.push(`/${stepPages[step]}`);
+        setActive(step === 3 ? 2 : step);
+        router.push(`/${STEP_PAGES[step]}`);
     }
-    
-    // const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-    // const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     return <Stepper active={active} onStepClick={handleStepClick}>
-        <Stepper.Step label="Fleet details" description="Name and description">
+        <Stepper.Step label="Fleet details" description="Basiccommander">
         </Stepper.Step>
-        <Stepper.Step label="Fleet composition" description="Arm some ships">
+        <Stepper.Step label="Fleet composition" description="Prepare some ships">
         </Stepper.Step>
         <Stepper.Step label="Fleet general" description="Add some heroes">
         </Stepper.Step>
         <Stepper.Completed>
-            Completed, click back button to get to previous step
+            Completed
         </Stepper.Completed>
     </Stepper>
 }

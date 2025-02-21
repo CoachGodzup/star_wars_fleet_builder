@@ -38,24 +38,6 @@ export const CompositionForm: React.FC = () => {
         });
     }
 
-    const handlePrev = () => {
-        router.push('/detail');
-    }
-
-    const handleNext = () => {
-        if (fleetShips.length > 0) {
-            router.push('/general');
-        } else {
-            notifications.show({
-                title: 'Aw, ships!', 
-                message: 'Please add at least one starship to your fleet',
-                color: 'red',
-                withCloseButton: true,
-                autoClose: 3000,
-            });
-        }
-    }
-
     useEffect(() => {
         const fetchShips = async () => {
             setLoading(true);
