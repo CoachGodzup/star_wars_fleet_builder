@@ -26,7 +26,7 @@ export const GeneralForm: React.FC = () => {
         }}
       />
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing='md'>
-        <Fieldset legend='Find general' miw={540}>
+        <Fieldset legend='Find general'>
           <PersonInput value={general} onChange={setGeneral} />
         </Fieldset>
         <Fieldset legend='Your fleet'>

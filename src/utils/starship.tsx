@@ -2,9 +2,9 @@ import { MantineColor } from '@mantine/core';
 import {
   IconPlane,
   IconRocket,
-  IconSend,
   IconSatellite,
   IconPlanet,
+  IconUfo,
 } from '@tabler/icons-react';
 
 const ICON_SIZE = 60;
@@ -24,7 +24,7 @@ export const getIconByCrew = (crew: number, size = ICON_SIZE) => {
     return <IconRocket data-testid='icon-starship' size={size}></IconRocket>;
   }
   if (crew < CREW_THRESHOLDS.medium) {
-    return <IconSend data-testid='icon-starship' size={size}></IconSend>;
+    return <IconUfo data-testid='icon-starship' size={size}></IconUfo>;
   }
   if (crew < CREW_THRESHOLDS.large) {
     return (

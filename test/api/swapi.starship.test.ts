@@ -3,11 +3,17 @@ import { fetchStarships, FetchStarshipRequest } from '@/api/swapi/starship';
 import { Starship } from '@/model/starship';
 import { mockStarship } from '../mocks/mock.starship';
 import { starshipList } from '../mocks/mock.starship.list';
+import { LocalStorageMock } from '../test-utils/localStorage';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('fetchStarships', () => {
+  global.localStorage = new LocalStorageMock();
+
+  beforeEach(() => {
+    localStorage.clear();
+  });
   it('should fetch starships by search term', async () => {
     const searchRequest: FetchStarshipRequest = {
       type: 'search',

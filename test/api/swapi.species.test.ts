@@ -6,13 +6,20 @@ import {
 } from '@/api/swapi/species';
 import { Species } from '@/model/species';
 import { mockSpecies } from '../mocks/mock.species';
+import { LocalStorageMock } from '../test-utils/localStorage';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('fetchSpecies', () => {
+  global.localStorage = new LocalStorageMock();
+
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should fetch species by id', async () => {
-    const getRequest: FetchSpeciesRequest = { type: 'get', id: 36 };
+    const getRequest: FetchSpeciesRequest = { type: 'get', id: '36' };
     const mockData: Species[] = [mockSpecies];
 
     mockedAxios.get = jest.fn().mockResolvedValue({ data: mockData });
@@ -25,7 +32,7 @@ describe('fetchSpecies', () => {
   });
 
   it('should handle errors', async () => {
-    const searchRequest: FetchSpeciesRequest = { type: 'get', id: 36 };
+    const searchRequest: FetchSpeciesRequest = { type: 'get', id: '36' };
     const errorMessage = 'Network Error';
 
     mockedAxios.get.mockRejectedValue(new Error(errorMessage));
