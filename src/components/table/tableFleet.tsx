@@ -3,7 +3,7 @@
 import { Assignment } from "@/model/assignment";
 import { assignGeneral, removeShip } from "@/store/assignmentReducer";
 import { Avatar, CloseButton, Group, Table, Text } from "@mantine/core";
-import { IconUserFilled } from "@tabler/icons-react";
+import { IconUserStar } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
 import { mockPerson } from "../../../test/mocks/mock.person";
 
@@ -73,7 +73,7 @@ export const TableFleet: React.FC<TableFleetProps> = ({ assignments, canRemove =
                         </Table.Td>
                         <Table.Td>
                             {canRemove ? <CloseButton onClick={() => handleRemove(index)}></CloseButton>: <></>}
-                            {canAssignGeneral ? <CloseButton icon={<IconUserFilled></IconUserFilled>} onClick={() => handleAssignGeneral(index)}></CloseButton> : <></>}
+                            {canAssignGeneral ? <CloseButton icon={<IconUserStar></IconUserStar>} onClick={() => handleAssignGeneral(index)}></CloseButton> : <></>}
                          </Table.Td>
                     </Table.Tr>
                 ))}
