@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { Starship } from '@/model/starship';
 import { SwapiMultipleResponse } from '@/model/swapiMultipleResponse';
+import { cacheable } from '../cache';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
@@ -34,8 +34,8 @@ export const fetchStarships: (
   return new Promise(async (resolve, reject) => {
     try {
       const URI = getURI(request);
-      const response = await axios.get<SwapiMultipleResponse<Starship>>(URI);
-      resolve(response.data);
+      const response = await cacheable<SwapiMultipleResponse<Starship>>(URI);
+      resolve(response);
     } catch (error) {
       reject(error);
     }

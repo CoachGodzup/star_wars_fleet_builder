@@ -3,16 +3,17 @@ import { Person } from '@/model/person';
 import { Planet } from '@/model/planet';
 import { Species } from '@/model/species';
 import { SwapiMultipleResponse } from '@/model/swapiMultipleResponse';
+import { cacheable } from '../cache';
 
 const SWAPI_BASE_URL = 'https://swapi.dev/api';
 
-type SearchPersonRequest = {
+export type SearchPersonRequest = {
   type: 'search';
   search: string;
   page?: number;
 };
 
-type GetPersonRequest = {
+export type GetPersonRequest = {
   type: 'get';
   id: number;
 };
@@ -24,19 +25,19 @@ export const fetchPerson: (req: GetPersonRequest) => Promise<Person[]> = (
     try {
       const URI = `${SWAPI_BASE_URL}/people/${request.id}`;
 
-      const response = await axios.get<Person[]>(URI);
+      const response = await cacheable<Person[]>(URI);
 
-      response.data.map(async (person) => {
+      response.map(async (person) => {
         // TODO species
         const speciesInfo = await Promise.all(
-          person.species.map((spec) => axios.get<Species>(spec)),
+          person.species.map((spec) => cacheable<Species>(spec)),
         );
-        person.speciesInfo = speciesInfo.map((elm) => elm.data);
+        person.speciesInfo = speciesInfo.map((elm) => elm);
 
-        const homeworldInfo = await axios.get<Planet>(person.homeworld);
-        person.homeworldInfo = homeworldInfo.data;
+        const homeworldInfo = await cacheable<Planet>(person.homeworld);
+        person.homeworldInfo = homeworldInfo;
 
-        resolve(response.data);
+        resolve(response);
       });
     } catch (error) {
       reject(error);
@@ -51,19 +52,9 @@ export const searchPerson: (req: SearchPersonRequest) => Promise<Person[]> = (
     try {
       const URI = `${SWAPI_BASE_URL}/people/?search=${request.search}`;
 
-      const response = await axios.get<SwapiMultipleResponse<Person>>(URI);
+      const response = await cacheable<SwapiMultipleResponse<Person>>(URI);
 
-      resolve(response.data.results);
-      /*const output = await response.data.results.map(async (person) => {
-                // TODO species
-                const speciesInfo = await Promise.all(person.species.map(spec => axios.get<Species>(spec)))
-                person.speciesInfo = speciesInfo.map(elm => elm.data);
-
-                const homeworldInfo = await axios.get<Planet>(person.homeworld)
-                person.homeworldInfo = homeworldInfo.data
-
-            });
-            resolve(output);*/
+      resolve(response.results);
     } catch (error) {
       reject(error);
     }
