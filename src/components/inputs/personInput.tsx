@@ -9,9 +9,10 @@ import {
   Paper,
   Stack,
 } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CardPerson from '../card/cardPerson';
 import { IconSearch } from '@tabler/icons-react';
+import { useDebouncedValue } from '@mantine/hooks';
 
 export type PersonInputProps = Omit<
   AutocompleteProps,
@@ -24,6 +25,7 @@ export type PersonInputProps = Omit<
 
 export const PersonInput: React.FC<PersonInputProps> = (props) => {
   const [inputValue, setInputValue] = useState(props.value?.name || '');
+  const [search] = useDebouncedValue(inputValue, 300);
   const [person, setPerson] = useState<Person | undefined>(props.value);
   const [personList, setPersonList] = useState<Person[]>([]);
 
@@ -34,21 +36,33 @@ export const PersonInput: React.FC<PersonInputProps> = (props) => {
     setPerson(undefined);
   };
 
-  const handleChange = async (search: string) => {
-    setLoading(true);
-    setInputValue(search);
+  const findPerson = useCallback(
+    async (search: string) => {
+      setLoading(true);
 
-    const commanderList = await searchPerson({ type: 'search', search });
-    setPersonList(commanderList);
+      const commanderList = await searchPerson({ type: 'search', search });
+      setPersonList(commanderList);
 
-    const founded = commanderList.find((c) => c.name === search);
-    if (founded) {
-      setPerson(founded);
-      if (props.onChange) {
-        props.onChange(founded);
+      const founded = commanderList.find((c) => c.name === search);
+      if (founded) {
+        setPerson(founded);
+        if (props.onChange) {
+          props.onChange(founded);
+        }
       }
+      setLoading(false);
+    },
+    [props],
+  );
+
+  useEffect(() => {
+    if (person?.name !== search) {
+      findPerson(search);
     }
-    setLoading(false);
+  }, [search, findPerson, person]);
+
+  const handleChange = async (searchValue: string) => {
+    setInputValue(searchValue);
   };
 
   return (
