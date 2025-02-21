@@ -3,7 +3,6 @@
 import { Person } from '@/model/person';
 import { Group, Avatar, Text, Loader } from '@mantine/core';
 import React, { useCallback, useEffect } from 'react';
-import { fetchPlanetByUrl } from '@/api/swapi/planet';
 import { fetchSpeciesByUrl } from '@/api/swapi/species';
 import { dateFormatter } from '@/utils/date-formatter';
 import {
@@ -13,6 +12,7 @@ import {
   IconUserFilled,
   IconWoman,
 } from '@tabler/icons-react';
+import { Homeworld } from './cardAsyncComponents/homeworld';
 
 interface CardPersonProps {
   person: Person;
@@ -21,18 +21,8 @@ const ICON_SIZE = 80;
 
 const CardPerson: React.FC<CardPersonProps> = ({ person }) => {
   // TODO fetch data from API and not here
-  const [isLoadingPlanet, setLoadingPlanet] = React.useState(false);
-  const [planet, setPlanet] = React.useState<string | null>(null);
-
   const [isLoadingSpecies, setLoadingSpecies] = React.useState(false);
   const [species, setSpecies] = React.useState<string | null>(null);
-
-  const getHomeworldInfos = useCallback(async () => {
-    setLoadingPlanet(true);
-    const result = await fetchPlanetByUrl(person.homeworld);
-    setPlanet(result.name);
-    setLoadingPlanet(false);
-  }, [person.homeworld]);
 
   const getSpeciesInfos = useCallback(async () => {
     setLoadingSpecies(true);
@@ -50,9 +40,8 @@ const CardPerson: React.FC<CardPersonProps> = ({ person }) => {
   }, [person.species]);
 
   useEffect(() => {
-    getHomeworldInfos();
     getSpeciesInfos();
-  }, [getHomeworldInfos, getSpeciesInfos]);
+  }, [getSpeciesInfos]);
 
   const getAvatarIconFromSpecies = useCallback(() => {
     if (species === 'Human') {
@@ -71,12 +60,12 @@ const CardPerson: React.FC<CardPersonProps> = ({ person }) => {
 
   return (
     <Group wrap='nowrap'>
-      <Avatar size={94} radius='md' color='initials'>
+      <Avatar size={94} radius='md' name={person.name} color={'initials'}>
         {getAvatarIconFromSpecies()}
       </Avatar>
       <div>
         <Text fz='xs' tt='uppercase' fw={700} c='dimmed'>
-          {isLoadingPlanet ? <Loader size={12} /> : planet}
+          <Homeworld person={person}></Homeworld>
         </Text>
 
         <Text fz='lg' fw={500}>
