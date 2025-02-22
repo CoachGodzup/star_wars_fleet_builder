@@ -1,8 +1,16 @@
+'use client';
+
 import React from 'react';
 import { GeneralForm } from '@/components/form/generalForm';
+import { Container } from '@mantine/core';
+import { NavGuard } from '@/components/guard/navGuard';
+import { useCheckValidity } from '@/hooks/useCheckValidity';
+import { Step } from '@/store/navStore';
 
-const CompositionPage: React.FC = () => {
-  return <GeneralForm />;
+const GeneralPage: React.FC = () => {
+  const isValidPage = useCheckValidity(Step.general);
+
+  return <Container>{isValidPage ? <GeneralForm /> : <NavGuard />}</Container>;
 };
 
-export default CompositionPage;
+export default GeneralPage;

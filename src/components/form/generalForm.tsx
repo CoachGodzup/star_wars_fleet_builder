@@ -8,7 +8,7 @@ import { Person } from '@/model/person';
 import { useState } from 'react';
 import { PersonInput } from '../inputs/personInput';
 import { NavButtons } from '../nav/NavButtons';
-import { setStep } from '@/store/navStore';
+import { setStep, Step } from '@/store/navStore';
 
 export const GeneralForm: React.FC = () => {
   const [general, setGeneral] = useState<Person>();
@@ -26,7 +26,7 @@ export const GeneralForm: React.FC = () => {
           isValid,
           invalidMessage: 'Please assign at least one general to a ship',
           onClick: () => {
-            dispatch(setStep(3));
+            dispatch(setStep(Step.complete));
           },
         }}
       />

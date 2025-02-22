@@ -5,8 +5,10 @@ export enum Step {
   detail = 0,
   composition,
   general,
-  done,
+  complete,
 }
+
+export const STEP_URLS = ['/detail', '/composition', '/general', '/complete'];
 
 type NavStoreData = {
   lastValidStep: Step;
@@ -23,7 +25,9 @@ const navSlice = createSlice({
     next: (state) => ({
       ...state,
       lastValidStep:
-        state.lastValidStep === Step.done ? Step.done : state.lastValidStep + 1,
+        state.lastValidStep === Step.complete
+          ? Step.complete
+          : state.lastValidStep + 1,
     }),
     prev: (state) => ({
       ...state,

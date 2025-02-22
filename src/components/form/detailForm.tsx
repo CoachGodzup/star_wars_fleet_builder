@@ -9,7 +9,7 @@ import { RootState } from '@/store/rootStore';
 import { PersonInput } from '../inputs/personInput';
 import { useRouter } from 'next/navigation';
 import { NavButtons } from '../nav/NavButtons';
-import { setStep } from '@/store/navStore';
+import { setStep, Step } from '@/store/navStore';
 
 export const DetailForm: React.FC = () => {
   const detailStore = useSelector((state: RootState) => state.detail);
@@ -41,7 +41,7 @@ export const DetailForm: React.FC = () => {
   const handleSubmit = () => {
     dispatch(setName(form.values.fleetName));
     dispatch(setDescription(form.values.description));
-    dispatch(setStep(1));
+    dispatch(setStep(Step.composition));
     if (isValid) {
       router.push('/composition');
     }

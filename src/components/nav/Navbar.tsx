@@ -1,30 +1,25 @@
 'use client';
 
-import { setStep } from '@/store/navStore';
+import { STEP_URLS } from '@/store/navStore';
 import { RootState } from '@/store/rootStore';
 import { Stepper } from '@mantine/core';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-const STEP_PAGES = ['detail', 'composition', 'general', 'complete'];
+import { useSelector } from 'react-redux';
 
 export const Navbar: React.FC = () => {
   const [active, setActive] = useState(0);
   const router = useRouter();
   const navStore = useSelector((state: RootState) => state.nav);
-  const dispatch = useDispatch();
   const pathname = usePathname();
 
   useEffect(() => {
-    const step = STEP_PAGES.findIndex((page) => pathname.includes(page));
+    const step = STEP_URLS.findIndex((page) => pathname.includes(page));
     setActive(step);
   }, [pathname]);
 
   const handleStepClick = (step: number) => {
-    setActive(step === 3 ? 2 : step);
-    dispatch(setStep(step));
-    router.push(`/${STEP_PAGES[step]}`);
+    router.push(STEP_URLS[step]);
   };
 
   return (
