@@ -3,7 +3,7 @@
 import { Card, Center, Container, Group, Image, Text } from '@mantine/core';
 import React from 'react';
 
-export const CompletePage: React.FC = () => {
+const CompletePage: React.FC = () => {
   return (
     <Container fluid>
       <Center>
