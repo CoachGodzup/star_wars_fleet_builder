@@ -1,21 +1,28 @@
-# Use Node.js LTS version
-FROM node:18-alpine
+# docker/dev.Dockerfile
+FROM oven/bun:latest
 
-# Set working directory
-WORKDIR /app
+WORKDIR /app/next-app
 
-# Copy package files
-COPY package*.json ./
+COPY package.json ./
+COPY bun.lock ./
 
-# Copy all files
+RUN bun install
+
 COPY . .
 
-# Build the Next.js application
-RUN npm install
-RUN npm run build
 
-# Expose port 3000
-EXPOSE 3000
+# Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line to disable telemetry at run time
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Start the application
-CMD ["npm", "run", "start"]
+# for deploting the build version
+
+RUN bun next build
+# and
+CMD bun next start
+
+# OR for sart Next.js in development, comment above two lines and uncomment below line
+
+# CMD bun run dev
+
+# Note: Don't expose ports here, Compose will handle that for us

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Person } from '@/model/person';
 import { Planet } from '@/model/planet';
 import { Species } from '@/model/species';

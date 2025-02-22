@@ -1,9 +1,7 @@
 coverage/*
+node_modules/*
 
-test/api/*
-test/components/*
-test/store/*
-test/test-utils/*
+test/*
 
 .gitignore
 .git
