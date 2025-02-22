@@ -13,6 +13,7 @@ type NextButtonProps = {
   type?: 'submit' | 'button';
   isValid: boolean;
   invalidMessage: string;
+  onClick?: () => void;
 };
 
 export type NavButtonsProps = {
@@ -31,6 +32,9 @@ export const NavButtons: React.FC<NavButtonsProps> = ({ prev, next }) => {
 
   const handleNext = () => {
     if (next.isValid) {
+      if (next.onClick) {
+        next.onClick();
+      }
       router.push(next.url);
     } else {
       notifications.show({
