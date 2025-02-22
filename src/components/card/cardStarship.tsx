@@ -10,7 +10,7 @@ export const CardStarship: React.FC<CardStarshipProps> = ({ starship }) => {
   return (
     <Group wrap='nowrap'>
       <Avatar
-        size={94}
+        size={80}
         radius='md'
         color={getColorByCrew(Number(starship.crew))}
       >
