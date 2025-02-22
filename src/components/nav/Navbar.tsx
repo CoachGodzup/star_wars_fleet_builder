@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
     <Stepper active={active} onStepClick={handleStepClick}>
       <Stepper.Step
         label='Fleet details'
-        description={'Basic infos ' + navStore.lastValidStep}
+        description={'Basic infos'}
         disabled={navStore.lastValidStep < 1}
       ></Stepper.Step>
       <Stepper.Step

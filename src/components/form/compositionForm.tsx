@@ -9,6 +9,7 @@ import { RootState } from '@/store/rootStore';
 import { addShip, reset } from '@/store/assignmentReducer';
 import { NavButtons } from '../nav/NavButtons';
 import { ShipSelector } from '../inputs/shipSelector';
+import { setStep } from '@/store/navStore';
 
 export const CompositionForm: React.FC = () => {
   const fleetShips = useSelector(
@@ -35,6 +36,9 @@ export const CompositionForm: React.FC = () => {
           url: '/general',
           isValid: fleetShips.length > 0,
           invalidMessage: 'Please add at least one starship to your fleet',
+          onClick: () => {
+            dispatch(setStep(2));
+          },
         }}
       />
       <SimpleGrid cols={2} spacing='md'>
