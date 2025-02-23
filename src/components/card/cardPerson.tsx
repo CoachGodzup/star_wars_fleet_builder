@@ -1,7 +1,7 @@
 'use client';
 
 import { Person } from '@/model/person';
-import { Group, Avatar, Text, Loader } from '@mantine/core';
+import { Group, Avatar, Text, Loader, Paper } from '@mantine/core';
 import React, { useCallback, useEffect } from 'react';
 import { fetchSpeciesByUrl } from '@/api/swapi/species';
 import { dateFormatter } from '@/utils/date-formatter';
@@ -59,38 +59,40 @@ const CardPerson: React.FC<CardPersonProps> = ({ person }) => {
   }, [species, person]);
 
   return (
-    <Group wrap='nowrap'>
-      <Avatar size={94} radius='md' name={person.name} color={'initials'}>
-        {getAvatarIconFromSpecies()}
-      </Avatar>
-      <div>
-        <Text fz='xs' tt='uppercase' fw={700} c='dimmed'>
-          <Homeworld person={person}></Homeworld>
-        </Text>
-
-        <Text fz='lg' fw={500}>
-          {person.name}
-        </Text>
-
-        <Group wrap='nowrap' gap={10} mt={3}>
-          <Text fz='xs' c='dimmed'>
-            {dateFormatter(person.birth_year)}
+    <Paper withBorder p='md' mt={20} miw={300}>
+      <Group wrap='nowrap'>
+        <Avatar size={94} radius='md' name={person.name} color={'initials'}>
+          {getAvatarIconFromSpecies()}
+        </Avatar>
+        <div>
+          <Text fz='xs' tt='uppercase' fw={700} c='dimmed'>
+            <Homeworld person={person}></Homeworld>
           </Text>
-        </Group>
 
-        <Group wrap='nowrap' gap={10} mt={3}>
-          <Text fz='xs' c='dimmed'>
-            {person.gender}
+          <Text fz='lg' fw={500}>
+            {person.name}
           </Text>
-        </Group>
 
-        <Group wrap='nowrap' gap={10} mt={5}>
-          <Text fz='xs' c='dimmed'>
-            {isLoadingSpecies ? <Loader size={12} /> : species}
-          </Text>
-        </Group>
-      </div>
-    </Group>
+          <Group wrap='nowrap' gap={10} mt={3}>
+            <Text fz='xs' c='dimmed'>
+              {dateFormatter(person.birth_year)}
+            </Text>
+          </Group>
+
+          <Group wrap='nowrap' gap={10} mt={3}>
+            <Text fz='xs' c='dimmed'>
+              {person.gender}
+            </Text>
+          </Group>
+
+          <Group wrap='nowrap' gap={10} mt={5}>
+            <Text fz='xs' c='dimmed'>
+              {isLoadingSpecies ? <Loader size={12} /> : species}
+            </Text>
+          </Group>
+        </div>
+      </Group>
+    </Paper>
   );
 };
 
