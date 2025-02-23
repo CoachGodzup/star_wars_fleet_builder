@@ -10,6 +10,6 @@ type CardGifProps = {
 
 export const CardGif: React.FC<CardGifProps> = ({ gif, alt }) => (
   <Card.Section>
-    <Image src={gif} height={160} alt={alt} />
+    <Image src={gif} height={160} width={200} alt={alt} />
   </Card.Section>
 );

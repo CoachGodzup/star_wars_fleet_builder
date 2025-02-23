@@ -7,6 +7,7 @@ import {
   Modal,
   Portal,
   SimpleGrid,
+  Text,
 } from '@mantine/core';
 import { TableFleet } from '../table/tableFleet';
 import { useDispatch, useSelector } from 'react-redux';
@@ -71,12 +72,10 @@ export const GeneralForm: React.FC = () => {
             alt='Jump into lightspeed!'
             title='Jump into lightspeed!'
             message={
-              <div>
-                <p>
-                  <Loader size={16} mr={16} color='white' />
-                  {`Please standby while we're preparing your fleet`}
-                </p>
-              </div>
+              <Text>
+                <Loader size={16} mr={16} color='white' />
+                {`Please standby while we're preparing your fleet`}
+              </Text>
             }
             buttonText='Motivate the troops!'
             leftSection={<IconSpeakerphone />}

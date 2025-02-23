@@ -13,15 +13,8 @@ export default function Home() {
               <Center>
                 <CardMessage
                   title='Welcome to Star Wars Fleet Builder!'
-                  message={
-                    <div>
-                      <div>
-                        Here you can build your own fleet and assign generals to
-                        ships.
-                      </div>
-                      <div>Join us, and we can rule the galaxy!</div>
-                    </div>
-                  }
+                  message={`Here you can build your own fleet and assign generals to
+                        ships. Join us, and we can rule the galaxy!`}
                   gif='/star-wars-hello.gif'
                   alt='hello there!'
                   buttonText='General Kenobi!'
