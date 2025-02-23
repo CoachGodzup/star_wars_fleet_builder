@@ -3,6 +3,8 @@ node_modules/*
 
 test/*
 
+readme/*
+
 .gitignore
 .git
 README.md
