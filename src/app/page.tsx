@@ -1,6 +1,7 @@
+'use client';
+
 import { CardMessage } from '@/components/card/cardMessage';
 import { Center, Container } from '@mantine/core';
-import { IconChevronRight } from '@tabler/icons-react';
 
 export default function Home() {
   return (
@@ -13,17 +14,16 @@ export default function Home() {
                 <CardMessage
                   title='Welcome to Star Wars Fleet Builder!'
                   message={
-                    <>
-                      <p>
+                    <div>
+                      <div>
                         Here you can build your own fleet and assign generals to
                         ships.
-                      </p>
-                      <p>Join us, and we can rule the galaxy!</p>
-                    </>
+                      </div>
+                      <div>Join us, and we can rule the galaxy!</div>
+                    </div>
                   }
                   gif='/star-wars-hello.gif'
                   alt='hello there!'
-                  leftSection={<IconChevronRight />}
                   buttonText='General Kenobi!'
                   href='/detail'
                 />

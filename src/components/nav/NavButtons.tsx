@@ -10,9 +10,11 @@ type PrevButtonProps = {
 type NextButtonProps = {
   url: string;
   label?: string;
+  debounce?: number;
   type?: 'submit' | 'button';
   isValid: boolean;
   invalidMessage: string;
+  onLoading?: () => void;
   onClick?: () => void;
 };
 
@@ -32,10 +34,15 @@ export const NavButtons: React.FC<NavButtonsProps> = ({ prev, next }) => {
 
   const handleNext = () => {
     if (next.isValid) {
-      if (next.onClick) {
-        next.onClick();
+      if (next.onLoading) {
+        next.onLoading();
       }
-      router.push(next.url);
+      setTimeout(() => {
+        if (next.onClick) {
+          next.onClick();
+        }
+        router.push(next.url);
+      }, next.debounce || 0);
     } else {
       notifications.show({
         title: 'Aw, ships!',
