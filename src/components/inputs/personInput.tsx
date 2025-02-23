@@ -6,8 +6,8 @@ import {
   CloseButton,
   InputBaseProps,
   Loader,
-  Paper,
   Stack,
+  Transition,
 } from '@mantine/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import CardPerson from '../card/cardPerson';
@@ -88,13 +88,16 @@ export const PersonInput: React.FC<PersonInputProps> = (props) => {
           transitionProps: { transition: 'pop', duration: 200 },
         }}
       ></Autocomplete>
-      {person ? (
-        <Paper withBorder p='md' mt={20} miw={300}>
-          <CardPerson person={person} />
-        </Paper>
-      ) : (
-        <></>
-      )}
+      <Transition
+        mounted={Boolean(person)}
+        transition='pop'
+        duration={400}
+        timingFunction='ease'
+      >
+        {(styles) =>
+          person ? <CardPerson person={person} {...styles} /> : <></>
+        }
+      </Transition>
     </Stack>
   );
 };
