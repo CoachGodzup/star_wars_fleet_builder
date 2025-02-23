@@ -40,7 +40,7 @@ export const CardMessage: React.FC<CardMessageProps> = ({
       <Text fw={500}>{title}</Text>
     </Group>
 
-    <Text size='sm' c='dimmed'>
+    <Text size='sm' c='dimmed' component='div'>
       {message}
     </Text>
 
