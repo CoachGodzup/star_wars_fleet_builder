@@ -23,7 +23,6 @@ describe('detailReducer', () => {
     expect(state).toEqual({
       name: '',
       description: '',
-      commander: null,
     });
   });
 

@@ -9,10 +9,9 @@ import { Person } from '@/model/person';
 import { mockPerson } from '../mocks/mock.person';
 import { LocalStorageMock } from '../test-utils/localStorage';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 describe('fetchPerson', () => {
+  const mockedAxios = axios as jest.Mocked<typeof axios>;
+
   global.localStorage = new LocalStorageMock();
 
   beforeEach(() => {

@@ -40,9 +40,9 @@ describe('navStore', () => {
   });
 
   it('should not go above Step.done when next action is dispatched', () => {
-    store.dispatch(setStep(Step.done));
+    store.dispatch(setStep(Step.complete));
     store.dispatch(next());
     const state = store.getState();
-    expect(state.lastValidStep).toBe(Step.done);
+    expect(state.lastValidStep).toBe(Step.complete);
   });
 });

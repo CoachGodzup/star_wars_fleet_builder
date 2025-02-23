@@ -9,7 +9,7 @@ import {
 
 const ICON_SIZE = 60;
 
-const CREW_THRESHOLDS = {
+export const CREW_THRESHOLDS = {
   fighter: 2,
   small: 10,
   medium: 500,
@@ -18,20 +18,48 @@ const CREW_THRESHOLDS = {
 
 export const getIconByCrew = (crew: number, size = ICON_SIZE) => {
   if (crew < CREW_THRESHOLDS.fighter) {
-    return <IconPlane data-testid='icon-starship' size={size}></IconPlane>;
+    return (
+      <IconPlane
+        data-testid='icon-starship'
+        data-icon='plane'
+        size={size}
+      ></IconPlane>
+    );
   }
   if (crew < CREW_THRESHOLDS.small) {
-    return <IconRocket data-testid='icon-starship' size={size}></IconRocket>;
+    return (
+      <IconRocket
+        data-testid='icon-starship'
+        data-icon='rocket'
+        size={size}
+      ></IconRocket>
+    );
   }
   if (crew < CREW_THRESHOLDS.medium) {
-    return <IconUfo data-testid='icon-starship' size={size}></IconUfo>;
+    return (
+      <IconUfo
+        data-testid='icon-starship'
+        data-icon='ufo'
+        size={size}
+      ></IconUfo>
+    );
   }
   if (crew < CREW_THRESHOLDS.large) {
     return (
-      <IconSatellite data-testid='icon-starship' size={size}></IconSatellite>
+      <IconSatellite
+        data-testid='icon-starship'
+        data-icon='satellite'
+        size={size}
+      ></IconSatellite>
     );
   }
-  return <IconPlanet data-testid='icon-starship' size={size}></IconPlanet>;
+  return (
+    <IconPlanet
+      data-testid='icon-starship'
+      data-icon='planet'
+      size={size}
+    ></IconPlanet>
+  );
 };
 
 export const getColorByCrew = (crew: number): MantineColor => {

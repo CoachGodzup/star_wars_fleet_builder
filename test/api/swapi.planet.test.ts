@@ -8,13 +8,16 @@ import { Planet } from '@/model/planet';
 import { mockPlanet } from '../mocks/mock.planet';
 import { LocalStorageMock } from '../test-utils/localStorage';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 describe('fetchPlanets', () => {
+  const mockedAxios = axios as jest.Mocked<typeof axios>;
+
   global.localStorage = new LocalStorageMock();
 
   beforeEach(() => {
+    localStorage.clear();
+  });
+
+  afterAll(() => {
     localStorage.clear();
   });
 

@@ -8,13 +8,16 @@ import { Species } from '@/model/species';
 import { mockSpecies } from '../mocks/mock.species';
 import { LocalStorageMock } from '../test-utils/localStorage';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 describe('fetchSpecies', () => {
+  const mockedAxios = axios as jest.Mocked<typeof axios>;
+
   global.localStorage = new LocalStorageMock();
 
   beforeEach(() => {
+    localStorage.clear();
+  });
+
+  afterAll(() => {
     localStorage.clear();
   });
 

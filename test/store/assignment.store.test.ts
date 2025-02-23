@@ -22,6 +22,10 @@ describe('assignmentReducer', () => {
     store = configureStore({ reducer: assignmentReducer });
   });
 
+  afterAll(() => {
+    store.dispatch(reset());
+  });
+
   it('should add a starship', () => {
     const starship: Starship = mockStarship;
     store.dispatch(addShip(starship));

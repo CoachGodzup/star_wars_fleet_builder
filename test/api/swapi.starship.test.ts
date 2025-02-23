@@ -5,10 +5,9 @@ import { mockStarship } from '../mocks/mock.starship';
 import { starshipList } from '../mocks/mock.starship.list';
 import { LocalStorageMock } from '../test-utils/localStorage';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
 describe('fetchStarships', () => {
+  const mockedAxios = axios as jest.Mocked<typeof axios>;
+
   global.localStorage = new LocalStorageMock();
 
   beforeEach(() => {
