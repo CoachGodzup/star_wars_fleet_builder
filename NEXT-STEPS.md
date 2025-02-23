@@ -1,20 +1,21 @@
 # Next Steps for Improvement
 
 ## Testing Enhancement
-- Implement comprehensive Jest testing suite
+- Implement comprehensive `Jest` testing suite
 - Add component testing coverage
 - Set up integration tests for critical flows
 - Include snapshot testing for UI components
-- Considering implementation of E2E testing via Cypress or Playwright
+- Considering implementation of E2E testing via `Cypress` or `Playwright`
 
 ## Performance Optimization
-- Integrate Redis for API call caching
+- Integrate `Redis` for API call caching
 - Optimizing caching strategy for frequently accessed data
 - Monitor cache hit rates and performance metrics
+- Removing `Axios` and use `Fetch API`, in order to leverage Next.js internal caching system
 
 ## Build Optimization
 - Analyze build time bottlenecks
-- Optimize bun configuration
+- Optimize `bun` configuration
 - Implement code splitting
 - Review and remove unused dependencies
 
