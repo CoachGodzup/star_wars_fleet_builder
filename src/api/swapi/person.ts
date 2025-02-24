@@ -26,18 +26,20 @@ export const fetchPerson: (req: GetPersonRequest) => Promise<Person[]> = (
 
       const response = await cacheable<Person[]>(URI);
 
-      response.map(async (person) => {
-        // TODO species
-        const speciesInfo = await Promise.all(
-          person.species.map((spec) => cacheable<Species>(spec)),
-        );
-        person.speciesInfo = speciesInfo.map((elm) => elm);
+      // failsafe information enrichment
+      try {
+        response.map(async (person) => {
+          const speciesInfo = await Promise.all(
+            person.species.map((spec) => cacheable<Species>(spec)),
+          );
+          person.speciesInfo = speciesInfo.map((elm) => elm);
 
-        const homeworldInfo = await cacheable<Planet>(person.homeworld);
-        person.homeworldInfo = homeworldInfo;
-
+          const homeworldInfo = await cacheable<Planet>(person.homeworld);
+          person.homeworldInfo = homeworldInfo;
+        });
+      } finally {
         resolve(response);
-      });
+      }
     } catch (error) {
       reject(error);
     }
