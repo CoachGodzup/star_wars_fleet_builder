@@ -2,7 +2,9 @@
 
 Here I'll present you my design choices and a devlog, on how I design and implement this project.
 
-### Why this stack?
+## Why this stack?
+
+![This is the teck stack you're looking for](/readme/tech-stack-meme.jpeg)
 
 I used `next.js` because it's a full-fledged framework, with several feature already ready to go, and simpler to implement.
 
@@ -30,6 +32,8 @@ Core models of this application are `person` and `starship`. In order to retriev
 
 ## Keep it simple
 
+![Star Wars Imperial Fleet](/readme/star-wars-ships-wallpaper-preview.jpg)
+
 In order to start doing the most meaninful result first, I began with a single page, with **only a form** and a submit, subdivided into three separated fieldset (easier to split later on): `design`, `component` and `general`.
 
 - design let me introduce my fleet
@@ -53,18 +57,22 @@ After raw cards are implemented, I began to design the row for `TableFleet`. I t
 
 ## You don't know the power of the Redux Side
 
-Now it's time to think about storing data, in order to split the form into three pages. So, I'll begin creating `detail` store in Redux. To help me in this task, I've used `redux-toolkit` and `react-redux` in order to reducing boilerplates to the minimum part. Being stores a core part of this application, I've focused also on testing them deeply.
+![Redux Store is way better than Waldo's](/readme/watto-store.jpeg)
+
+*Redux Store is way better than Waldo's*
+
+Now it's time to think about **storing data**, in order to split the form into three pages. So, I'll begin creating `detail` store in Redux. To help me in this task, I've used `redux-toolkit` and `react-redux` in order to reducing boilerplates to the minimum part. Being stores a core part of this application, I've focused also on testing them deeply.
 
 > now we got a problem: Next.js is very server-side rendering oriented, and being redux mainly a client-side technology, this caused a conflict. I prefer to stay on the client side for everything.
 
-In this specific page, I still don't know precisely which action I'll use for every single component. I know what to do, but not the payloads I'll pass to the single action.
+In this specific page, **I still don't know precisely which action I'll use for every single component**. I know what to do, but not the payloads I'll pass to the single action.
 
 I thought also that it should be a clever way to handle the fact that a general should be assigned only to one ship. So, I created a `assignment` store and model. So, the fleet at step 2 is just an array of assignments, where general is empty, and adding a general is straightforward. 
 
-> The store also manage the unicity of general during adding time, so when you add it to a ship, store already controls if it's somewhere else and remove it, before assignment. We've got the "move general" action with zero effort!
+> The store also manage the **unicity** of general during adding time, so when you add it to a ship, store already controls if it's somewhere else and remove it, before assignment. We've got the "move general" action with zero effort!
 
 ## That wizard's just a crazy old man
-That single page form is just boring: it's time to create the wizard. So I splitted the form into three separated component and I created a `navbar` component in order to navigate them. Navbar is quite simple, since [it was already in library](https://mantine.dev/core/stepper/). I just have to create routing for my application. Luckily, Next.js has already [a way to route using folders and components](https://nextjs.org/docs/app).
+That single page form is just boring: **it's time to create the wizard**. So I splitted the form into three separated component and I created a `navbar` component in order to navigate them. Navbar is quite simple, since [it was already in library](https://mantine.dev/core/stepper/). I just have to create routing for my application. Luckily, Next.js has already [a way to route using folders and components](https://nextjs.org/docs/app).
 
 I've also added a starting page, because... I'm lazy, and I forgot everytime to use https://localhost:3000/detail instead of https://localhost:3000. But it also a nice feature to have, a single landing point.
 
@@ -84,11 +92,15 @@ I created a `selectableCardStarship` that extends `cardStarship` creating a clic
 
 ## API, API everywhere
 
-TIme to move away from mocks and implements the API calls. There's a way next.js handle calls with an internal cache mechanism. The problem is: this still not fits well with Jest testing library. So, with my great unpleasantness, I decided to switch to `Axios`. I don't like to add libraries for already-available features, but testing is quite important.
+![API calls cache](/readme/windu-cache.jpeg)
+
+TIme to move away from mocks and **implements the API calls**. There's a way next.js handle calls with an internal cache mechanism. The problem is: this still not fits well with Jest testing library. So, with my great unpleasantness, I decided to switch to `Axios`. I don't like to add libraries for already-available features, but testing is quite important.
 
 I began creating endpoints for all requests, beginning with `people` and `starship`, handling pagination accordingly. 
 
 > I know that in this phase a lot of calls are made, and I decided to use a caching mechanism. Later.
+
+Later on, I implemented a **caching mechanism**, using URLs as keys for this store. I simply used LocalStorage to cache calls. I don't like it and I want to change it in future releases. But it's sufficiently simple to switch from Axios to `cacheable` that I decided to stick to that for a while. 
 
 ## Hello there! General Kenobi!
 
@@ -102,8 +114,47 @@ I've already created a form search mechanism on details page, time to externaliz
 
 > Having a lot of information can be shown in several different way. For instance, avatar changes based on species, with a standard one. Also, during development, the color of the background was based on the biome of the planet. I deprecated it later on, in order not to have an overengineered card.
 
-## Parsec route 
+## I find your lack of navigation disturbing
 
+We made the wizard, we made forms, we store data. Now it's time to create the navigation, with all controls.
 
+I need some feedback on errors and navigation stuff. Luckily, mantine has a [built in notification hook](https://mantine.dev/x/notifications/) to use for simple feedbacks.
 
+Also, what to do if user falls into the wrong page? 
 
+Initially, I've decided to simply redirect user. But there were some caveats:
+
+- next.js focused on the server side
+- last valid navigated page is in a redux store
+- again, a client/server conflict
+- also, redirect during render phase is a bad practice
+
+So, I decided to spice up my application (and letting it be more Star Wars related) with notification cards
+
+![Navigation guard](/readme/Navigation-error.png)
+
+*this is way better and nerdy than a simple redirect!*
+
+As I already suggested:
+
+- every step wrote into `navStore` last valid page the user has navigated
+- stepper's invalid pages are simply disabled
+- if user forced an invalid url, good ol' Ben Kenobi force push it back.
+
+And... it's time for a complete card section! Initially, it was just a simply notification card, but I decide to move into a summary page, more useful one
+
+![Mandatory Admiral Ackbar added](/readme/complete-feedback.png)
+
+*Mandatory Admiral Ackbar added*
+
+![Summary page at the end](/readme/complete.png)
+
+*Summary page is more useful*
+
+## Do or do not, there's no try
+
+Now, wizard is complete, and I just need to cleanup some code, improving testing (although some coverage is still missing), fixing and speeding up Docker build.
+
+I've also added a [Next Step](/NEXT-STEPS.md) pages for part of this application I like to improve.
+
+Thanks for the reading, and may the Commit will be with you!
