@@ -5,6 +5,8 @@
 Create your fleet, assign a Fleet Commander (even Jar Jar Binks, for the brave souls), compose it with every starship model from the first 6 films, assign some generals on board... and you are ready to go!
 
 !["whoops"](/readme/Navigation-error.png)
+
+
 *Don't mess with the navigation, if you don't want Ben Kenobi to go after you!*
 
 ## Project Startup
@@ -61,31 +63,45 @@ And... that's it! Now you can go lightspeed to your Kubernetes environment!
 
 The Dockerfile contains two sections, one for the dev environment and one for the production environment. Please uncomment the desired one to use.
 
-You can also test without Docker:
+You can also run production environment without Docker:
 
 ```bash
 bun run build
 bun run start
 ```
 
+## Test
+
+You can run test in your local environment, it's better to use `npm`
+
+```bash
+npm test
+```
+
 ## Screenshots
 
 ![Add main details to your fleet](/readme/detail.png "Add main details to your fleet")
+
 *Add main details to your fleet*
 
 ![Compose your fleet](/readme/composition.png "Compose your fleet")
+
 *Compose your fleet*
 
 ![Assign generals to your fleet](/readme/general.png "Assign generals to your fleet")
+
 *Assign generals to your fleet*
 
 ![Submitting data](/readme/general-loading.png "Almost done, we're sending data on Parsec route*")
+
 *Almost done, we're sending data on Parsec route*
 
 ![All done!](/readme/complete-feedback.png "Sure, it's always a trap!")
+
 *All done!*
 
 ![Summary page on completion](/readme/complete.png "We got also useless fancy buttons!")
+
 *Summary page on completion*
 
 ## Boring stuff
@@ -94,19 +110,19 @@ bun run start
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-All data are retrieved via good ol' [SWAPI](https://swapi.dev/) REST calls. Data are then cached in local storage.
+All data are retrieved via good ol' [`SWAPI` (Star Wars API)](https://swapi.dev/) REST calls. Data are then cached in local storage.
 
-We're using [Axios](https://axios-http.com/) for API calls, in order to test it.
+We're using [`axios`](https://axios-http.com/) for API calls, in order to test it.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-This project uses [Redux](https://redux.js.org/) for state management, using [Redux Toolkit](https://redux-toolkit.js.org/) and React-Redux to speed up the development phase and create less boilerplate.
+This project uses [`redux`](https://redux.js.org/) for state management, using [Redux Toolkit](https://redux-toolkit.js.org/) and React-Redux to speed up the development phase and create less boilerplate.
 
-UI assets are from the [Mantine](https://mantine.dev) library, with [Tabler Icons](https://tabler.io/icons).
+UI assets are from the [`Mantine`](https://mantine.dev) library, with [`Tabler Icons`](https://tabler.io/icons).
 
-Testing is done using the [Jest](https://jestjs.io/) library.
+Testing is done using the [`Jest`](https://jestjs.io/) library.
 
-Gifs are taken from [tenor](https://tenor.com/).
+Gifs are taken from [`tenor`](https://tenor.com/).
 
 ## Disclaimer
 
